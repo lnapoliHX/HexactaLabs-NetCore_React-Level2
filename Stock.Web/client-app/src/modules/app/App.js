@@ -9,7 +9,7 @@ import ProviderPage from "../providers/page";
 import LogoutPage from "../auth/containers/LogoutPage";
 import ProductTypePage from "../productType/page";
 import StorePage from "../stores/page";
-import ProductPage from "../product/page";
+import ProductPage from "../products/page";
 
 import PropTypes from "prop-types";
 
