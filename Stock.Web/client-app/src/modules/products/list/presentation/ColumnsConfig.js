@@ -49,23 +49,27 @@ const columns = [
     Header: <HeaderComponent title="Nombre" />,
     accessor: "name",
     Cell: props => props.value
+  },
+  {
+    Header: <HeaderComponent title="Costo" />,
+    accessor: "costPrice",
+    Cell: props => props.value
+  },
+  {
+    Header: <HeaderComponent title="Precio" />,
+    accessor: "salePrice",
+    Cell: props => props.value
+  },
+  {
+    Header: <HeaderComponent title="Descripcion de la categoria" />,
+    accessor: "productTypeDesc",
+    Cell: props => props.value
+  },
+  {
+    Header: <HeaderComponent title="Acciones" />,
+    accessor: "id",
+    Cell: renderToolbar
   }
-  // },
-  // {
-  //   Header: <HeaderComponent title="Direccion" />,
-  //   accessor: "address",
-  //   Cell: props => props.value
-  // },
-  // {
-  //   Header: <HeaderComponent title="Telefono" />,
-  //   accessor: "phone",
-  //   Cell: props => props.value
-  // },
-  // {
-  //   Header: <HeaderComponent title="Acciones" />,
-  //   accessor: "id",
-  //   Cell: renderToolbar
-  // }
 ];
 
 renderToolbar.propTypes = {

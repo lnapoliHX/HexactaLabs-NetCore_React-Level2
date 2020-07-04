@@ -5,10 +5,10 @@ import { toast } from "react-toastify";
 import { replace } from "connected-react-router";
 
 /* Actions */
-function success(store) {
+function success(product) {
   return {
     type: ActionTypes.CREATE,
-    store
+    product
   };
 }
 
@@ -18,11 +18,11 @@ function handleError(dispatch, error) {
   return dispatch(setLoading(false));
 }
 
-export function create(store) {
+export function create(product) {
   return function(dispatch) {
     dispatch(setLoading(true));
     return api
-      .post(`/store/`, store)
+      .post(`/product/`, product)
       .then(response => {
         if (!response.data.success) {
           var error = {response: {data: {Message: response.data.message}}};
@@ -32,9 +32,9 @@ export function create(store) {
 
         dispatch(success(response.data.data));
         dispatch(setLoading(false));
-        toast.success("La tienda se creó con éxito");
+        toast.success("El producto se creó con éxito");
         
-        return dispatch(replace("/store"));
+        return dispatch(replace("/product"));
       })
       .catch(error => {
         return handleError(dispatch, error);

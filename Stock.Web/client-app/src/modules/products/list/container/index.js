@@ -6,9 +6,12 @@ import { getProducts, getAll, fetchByFilters } from "../index";
 import Presentation from "../presentation";
 
 const initialState = {
-  name: ""
-  // address: "",
-  // condition: "AND"
+  name: "",
+  costPrice: "",
+  salePrice: "",
+  productTypeId: 0,
+  productTypeDesc: "",
+  condition: "AND"
 };
 
 class ProductsPage extends React.Component {

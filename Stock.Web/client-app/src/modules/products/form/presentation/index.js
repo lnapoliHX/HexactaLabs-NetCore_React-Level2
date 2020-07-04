@@ -11,13 +11,8 @@ const StoreForm = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <Field label="Nombre" name="name" component={InputField} type="text" />
-      <Field label="Teléfono" name="phone" component={InputField} type="text" />
-      <Field
-        label="Dirección"
-        name="address"
-        component={InputField}
-        type="text"
-      />
+      <Field label="Costo" name="costPrice" component={InputField} type="text" />
+      <Field label="Precio " name="salePrice" component={InputField} type="text" />
       <Button className="store-form__button" color="primary" type="submit">
         Guardar
       </Button>
