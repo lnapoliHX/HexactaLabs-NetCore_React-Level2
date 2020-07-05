@@ -22,7 +22,7 @@ export function remove(id) {
   return function (dispatch) {
     dispatch(setLoading(true));
     return api
-      .delete(`/store/${id}`)
+      .delete(`/product/${id}`)
       .then(response => {
         if (!response.data.success) {
           var error = {response: {data: {Message: response.data.message}}};
@@ -32,9 +32,9 @@ export function remove(id) {
 
         dispatch(success(id));
         dispatch(setLoading(false));
-        toast.success("Se eliminó la tienda con éxito");
+        toast.success("Se eliminó el producto con éxito");
         
-        return dispatch(replace("/store"));
+        return dispatch(replace("/product"));
       })
       .catch(error => {
         return handleError(dispatch, error);

@@ -2,13 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { goBack } from "connected-react-router";
 import PropTypes from "prop-types";
-import StoreRemove from "../presentation";
+import ProductRemove from "../presentation";
 import { remove } from "../index";
 
-class StoreRemovePage extends React.Component {
+class ProductRemovePage extends React.Component {
   render() {
     return (
-      <StoreRemove
+      <ProductRemove
         remove={() => this.props.remove(this.props.match.params.id)}
         goBack={this.props.goBack}
       />
@@ -16,7 +16,7 @@ class StoreRemovePage extends React.Component {
   }
 }
 
-StoreRemovePage.propTypes = {
+ProductRemovePage.propTypes = {
   remove: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired
@@ -27,4 +27,4 @@ const mapDispatchToProps = { remove, goBack };
 export default connect(
   null,
   mapDispatchToProps
-)(StoreRemovePage);
+)(ProductRemovePage);
