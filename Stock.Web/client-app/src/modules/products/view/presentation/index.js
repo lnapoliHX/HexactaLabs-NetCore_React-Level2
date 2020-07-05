@@ -2,23 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col, Button } from "reactstrap";
 
-const StoreView = props => {
+const ProductView = props => {
   return (
     <Container fluid>
-      <h1>{props.store.name}</h1>
+      <h1>{props.product.name}</h1>
       <Row>
-        <Col lg="2">Dirección</Col>
-        <Col>{props.store.address}</Col>
+        <Col lg="2">Costo</Col>
+        <Col>{props.product.costPrice}</Col>
       </Row>
       <Row>
-        <Col lg="2">Teléfono</Col>
-        <Col>{props.store.phone}</Col>
+        <Col lg="2">Precio</Col>
+        <Col>{props.product.salePrice}</Col>
       </Row>
       <div className="store-view__button-row">
         <Button
           className="store-form__button"
           color="primary"
-          onClick={() => props.push(`/store/update/${props.match.params.id}`)}
+          onClick={() => props.push(`/product/update/${props.match.params.id}`)}
         >
           Editar
         </Button>
@@ -26,7 +26,7 @@ const StoreView = props => {
           className="store-form__button"
           color="danger"
           onClick={() =>
-            props.push(`/store/view/${props.match.params.id}/remove`)
+            props.push(`/product/view/${props.match.params.id}/remove`)
           }
         >
           Eliminar
@@ -34,7 +34,7 @@ const StoreView = props => {
         <Button
           className="store-form__button"
           color="default"
-          onClick={() => props.push(`/store`)}
+          onClick={() => props.push(`/product`)}
         >
           Volver
         </Button>
@@ -43,10 +43,10 @@ const StoreView = props => {
   );
 };
 
-StoreView.propTypes = {
-  store: PropTypes.object.isRequired,
+ProductView.propTypes = {
+  product: PropTypes.object.isRequired,
   push: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired
 };
 
-export default StoreView;
+export default ProductView;
