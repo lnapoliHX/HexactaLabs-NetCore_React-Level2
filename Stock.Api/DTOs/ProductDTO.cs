@@ -1,12 +1,9 @@
-﻿using Stock.Model.Base;
-using Stock.Model.Exceptions;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Stock.Model.Entities
+namespace Stock.Api.DTOs
 {
-    [Table("product")]
-    public class Product: IEntity
-    {
+    public class ProductDTO
+    {                       
         public string Id { get; set; }
 
         public string Name { get; set; }
@@ -19,7 +16,7 @@ namespace Stock.Model.Entities
 
         public decimal SalePrice { get; set; }
 
-        public virtual ProductType ProductType { get; set; }
+        public virtual ProductTypeDTO ProductType { get; set; }
 
         private int _stock;
 
@@ -34,7 +31,7 @@ namespace Stock.Model.Entities
         public void DescontarStock(int value)
         {
             if (this._stock - value < 0)
-                throw new ModelException("No hay stock disponible para efectuar la operación.");
+                // throw new ("No hay stock disponible para efectuar la operación.");
 
             this._stock -= value;
         }
@@ -45,6 +42,6 @@ namespace Stock.Model.Entities
         }
 
         public string ProviderId { get; set; }
-        public Provider Provider { get; set; }
+        public ProviderDTO Provider { get; set; }    
     }
 }
