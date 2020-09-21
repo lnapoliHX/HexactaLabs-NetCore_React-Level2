@@ -120,7 +120,8 @@ namespace Stock.Api.Controllers
             }
         
             var providers = this.service.Search(filter);
-            return Ok(providers);
+
+            return Ok(this.mapper.Map<IEnumerable<ProductDTO>>(providers).ToList());
         }
     }
 }
