@@ -17,7 +17,7 @@ namespace Stock.Model.Entities
 
         public virtual ProductType ProductType { get; set; }
 
-        private int _stock;
+        private int _stock {get; set;}
 
         public int Stock
         {
@@ -31,7 +31,6 @@ namespace Stock.Model.Entities
         {
             if (this._stock - value < 0)
                 throw new ModelException("No hay stock disponible para efectuar la operación.");
-
             this._stock -= value;
         }
 
