@@ -21,18 +21,18 @@ function handleError(dispatch, error) {
 export function create(product) {
   return function(dispatch) {
     dispatch(setLoading(true));
+    console.log(product);
     return api
       .post(`/product/`, product)
       .then(response => {
         if (!response.data.success) {
           var error = {response: {data: {Message: response.data.message}}};
-
           return handleError(dispatch, error);
         }
 
         dispatch(success(response.data.data));
         dispatch(setLoading(false));
-        toast.success("El proveedor se creó con éxito");
+        toast.success("El producto se creó con éxito");
         
         return dispatch(replace("/product"));
       })

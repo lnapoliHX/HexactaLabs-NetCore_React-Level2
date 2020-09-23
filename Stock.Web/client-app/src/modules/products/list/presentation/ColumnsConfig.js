@@ -32,9 +32,7 @@ const renderToolbar = ({ value }) => {
 
 const HeaderComponent = props => {
   return (
-	<h2 
-	className="tableHeading"
-    >
+	  <h2 className="tableHeading">
       {props.title}
     </h2>
   );
@@ -56,11 +54,6 @@ const columns = [
   {
     Header: <HeaderComponent title="Precio de venta" />,
     accessor: "salePrice",
-    Cell: props => props.value
-  },
-  {
-    Header: <HeaderComponent title="Categoría" />,
-    accessor: "productTypeInitials",
     Cell: props => props.value
   },
   {

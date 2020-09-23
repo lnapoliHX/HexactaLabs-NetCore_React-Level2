@@ -32,7 +32,7 @@ export function remove(id) {
 
         dispatch(success(id));
         dispatch(setLoading(false));
-        toast.success("Se eliminó el proveedor con éxito");
+        toast.success("Se eliminó el producto con éxito");
         
         return dispatch(replace("/product"));
       })

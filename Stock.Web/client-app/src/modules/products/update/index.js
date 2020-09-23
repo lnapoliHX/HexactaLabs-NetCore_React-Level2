@@ -18,7 +18,7 @@ export function update(product) {
     return api
       .put(`/product/${product.id}`, product)
       .then(() => {
-        toast.success("El proveedor se editó con éxito");
+        toast.success("El producto se editó con éxito");
         dispatch(success(product));
         dispatch(setLoading(false));
         return dispatch(goBack());

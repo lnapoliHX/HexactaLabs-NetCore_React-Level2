@@ -90,6 +90,7 @@ namespace Stock.Api.Controllers
                 var toReturn = this.mapper.Map<ProductDTO>(result);
                 toReturn.ProductTypeId = result.ProductType.Id;
                 toReturn.ProductTypeDesc = result.ProductType.Description;
+                toReturn.ProviderName = result.Provider.Name;
                 return toReturn;
             }
             catch (Exception)

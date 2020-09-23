@@ -91,8 +91,9 @@ namespace Stock.Api.Controllers
                 var provider = this.service.Get(id);
 
                 Expression<Func<Product, bool>> filter = x => x.ProviderId.Equals(id);
-
+               
                 this.service.Delete(provider);
+
                 return Ok(new { Success = true, Message = "", data = id });
             } catch {
                 return Ok(new { Success = false, Message = "", data = id });
@@ -103,7 +104,7 @@ namespace Stock.Api.Controllers
         public ActionResult Search([FromBody] ProviderSearchDTO model)
         {
             Expression<Func<Provider, bool>> filter = x => !string.IsNullOrWhiteSpace(x.Id);
-
+    
             if (!string.IsNullOrWhiteSpace(model.Name))
             {
                 filter = filter.AndOrCustom(
