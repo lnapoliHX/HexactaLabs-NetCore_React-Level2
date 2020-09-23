@@ -21,7 +21,6 @@ function handleError(dispatch, error) {
 export function create(product) {
   return function(dispatch) {
     dispatch(setLoading(true));
-    console.log(product);
     return api
       .post(`/product/`, product)
       .then(response => {
