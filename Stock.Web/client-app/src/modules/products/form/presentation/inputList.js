@@ -13,7 +13,7 @@ class InputList extends React.Component {
 
     componentDidMount(){
         if(this.props.URL !== undefined){
-            api
+            return api
             .get(this.props.URL)
             .then(response => {
                 response.data.forEach(element => {
@@ -27,6 +27,8 @@ class InputList extends React.Component {
             });
         }
     }
+
+
     render() {    
     return (
         <Field label={this.props.label} options={this.state.options} name={this.props.name} component={SelectField}></Field>

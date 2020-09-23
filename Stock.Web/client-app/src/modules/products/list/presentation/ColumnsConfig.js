@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
-
+import { FaEdit, FaTrash, FaSearch, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import PropTypes from "prop-types";
 
 const renderToolbar = ({ value }) => {
@@ -26,6 +25,26 @@ const renderToolbar = ({ value }) => {
   return (
     <span>
       {viewButton} {editButton} {removeButton}
+    </span>
+  );
+};
+
+const renderStock = ({ value }) => {
+  let increaseStock = (
+    <Link className="product-list__button" to={`/product/incStock/${value}`}>
+      <FaArrowUp className="product-list__button-icon" />
+    </Link>
+  );
+
+  let decreaseStock = (
+    <Link className="product-list__button" to={`/product/decStock/${value}`}>
+      <FaArrowDown className="product-list__button-icon" />
+    </Link>
+  );
+
+  return (
+    <span>
+      {increaseStock} {decreaseStock} 
     </span>
   );
 };
@@ -60,6 +79,11 @@ const columns = [
     Header: <HeaderComponent title="Stock" />,
     accessor: "stock",
     Cell: props => props.value
+  },
+  {
+    Header: <HeaderComponent title="Stock" />,
+    accessor: "id",
+    Cell: renderStock
   },
   {
     Header: <HeaderComponent title="Acciones" />,

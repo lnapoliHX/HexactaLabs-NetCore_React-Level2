@@ -160,7 +160,7 @@ namespace Stock.Api.Controllers
         /// <param name="id">Identificador de la instancia que aumentará su stock</param>
         /// <param name="value">Cantidad a aumentar</param>
         [HttpPut("increaseStock")]
-        public ActionResult<Product> IncreaseStock(string id, int value)
+        public ActionResult IncreaseStock(string id, int value)
         {
             var product = this.service.Get(id);
             if(product != null){
@@ -168,7 +168,7 @@ namespace Stock.Api.Controllers
                 this.service.Update(product);                
                 return Ok(new { Success = true, Message = "", data = value });
             } else {
-                return Ok(new { Success = true, Message = "Error: producto no encontrado", data = value });
+                return StatusCode(500);
             }
         }
 
@@ -186,11 +186,11 @@ namespace Stock.Api.Controllers
                     product.DescontarStock(value);  
                     this.service.Update(product);
                 } catch (ModelException e){
-                     return Ok(new { Success = true, Message = e.Message, data = value });
+                     return StatusCode(500);
                 }
                 return Ok(new { Success = true, Message = "", data = value });
             } else {
-                return Ok(new { Success = true, Message = "Error: producto no encontrado", data = value });
+                return StatusCode(500);
             }         
         }
     }

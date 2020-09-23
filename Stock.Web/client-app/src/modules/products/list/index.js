@@ -16,15 +16,35 @@ const SET = "PRODUCTS_SET";
 const CREATE = "PRODUCTS_CREATE";
 const UPDATE = "PRODUCTS_UPDATE";
 const REMOVE = "PRODUCTS_REMOVE";
+const INCREASE_STOCK = "PRODUCTS_INCREASE_STOCK";
+const DECREASE_STOCK = "PRODUCTS_DECREASE_STOCK";
+
 
 export const ActionTypes = {
   LOADING,
   SET,
   CREATE,
   UPDATE,
-  REMOVE
+  REMOVE,
+  INCREASE_STOCK,
+  DECREASE_STOCK,
 };
 
+function handleIncreaseStock(state, { product }) {
+  product.stock = parseInt(product.stock) + parseInt(product.value);
+  return {
+    ...state,
+    byId: { ...state.byId, [product.id]: cloneDeep(product) }
+  };
+}
+
+function handleDecreaseStock(state, { product }) {
+  product.stock = parseInt(product.stock) - parseInt(product.value);
+  return {
+    ...state,
+    byId: { ...state.byId, [product.id]: cloneDeep(product) }
+  };
+}
 /* Reducer handlers */
 function handleLoading(state, { loading }) {
   return {
@@ -73,12 +93,15 @@ function handleRemoveProduct(state, { id }) {
   };
 }
 
+
 const handlers = {
   [LOADING]: handleLoading,
   [SET]: handleSet,
   [CREATE]: handleNewProduct,
   [UPDATE]: handleUpdateProduct,
-  [REMOVE]: handleRemoveProduct
+  [REMOVE]: handleRemoveProduct,
+  [INCREASE_STOCK]: handleIncreaseStock,
+  [DECREASE_STOCK]: handleDecreaseStock,
 };
 
 export default function reducer(state = initialState, action) {
