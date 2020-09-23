@@ -14,12 +14,24 @@ const ProductView = props => {
 				<Col>{props.product.id}</Col>
 			</Row>
 			<Row>
-				<Col lg="2">Email</Col>
-				<Col>{props.product.email}</Col>
+				<Col lg="2">Precio de costo</Col>
+				<Col>{props.product.costPrice}</Col>
 			</Row>
 			<Row>
-				<Col lg="2">Teléfono</Col>
-				<Col>{props.product.phone}</Col>
+				<Col lg="2">Precio de venta</Col>
+				<Col>{props.product.salePrice}</Col>
+			</Row>
+			<Row>
+				<Col lg="2">Stock</Col>
+				<Col>{props.product.stock}</Col>
+			</Row>
+			<Row>
+				<Col lg="2">Proveedor</Col>
+				<Col>{props.product.providerName}</Col>
+			</Row>
+			<Row>
+				<Col lg="2">Categoría</Col>
+				<Col>{props.product.productTypeDesc}</Col>
 			</Row>
 	  	</div>
 		<div className="product-view__button-row">
