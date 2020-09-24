@@ -16,12 +16,14 @@ namespace Stock.Api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private ProductService service;
+        private ProductService productService;
+        private ProviderService providerService;
         private readonly IMapper mapper;
 
-        public ProductController(ProductService service, IMapper mapper)
+        public ProductController(ProductService productService, ProviderService providerService, IMapper mapper)
         {
-            this.service = service;
+            this.productService = productService;
+            this.providerService = providerService;
             this.mapper = mapper;
         }
 
@@ -37,7 +39,9 @@ namespace Stock.Api.Controllers
             try
             {
                 var product = this.mapper.Map<Product>(value);
-                this.service.Create(product);
+                //var provider = this.providerService.Get(value.ProviderId);
+                //product.Provider = provider;
+                this.productService.Create(product);
                 value.Id = product.Id;
                 return Ok(new { Success = true, Message = "", data = value });
             }
@@ -56,7 +60,7 @@ namespace Stock.Api.Controllers
         {
             try
             {
-                var result = this.service.GetAll();
+                var result = this.productService.GetAll();
                 return this.mapper.Map<IEnumerable<ProductDTO>>(result).ToList();
             }
             catch (Exception)
@@ -75,7 +79,7 @@ namespace Stock.Api.Controllers
         {
             try
             {
-                var result = this.service.Get(id);
+                var result = this.productService.Get(id);
                 return this.mapper.Map<ProductDTO>(result);
             }
             catch (Exception)
@@ -92,10 +96,10 @@ namespace Stock.Api.Controllers
         [HttpPut("{id}")]
         public void Put(string id, [FromBody] ProductDTO value)
         {
-            var product = this.service.Get(id);
+            var product = this.productService.Get(id);
             TryValidateModel(value);
             this.mapper.Map<ProductDTO, Product>(value, product);
-            this.service.Update(product);
+            this.productService.Update(product);
         }
 
         /// <summary>
@@ -106,8 +110,8 @@ namespace Stock.Api.Controllers
         [HttpPut("{id}/increasestock")]
         public void IncreaseStock(string id, int value)
         {
-            var product = this.service.Get(id);
-            this.service.IncreaseStock(product, value);
+            var product = this.productService.Get(id);
+            this.productService.IncreaseStock(product, value);
         }
 
         /// <summary>
@@ -120,8 +124,8 @@ namespace Stock.Api.Controllers
         {
             try
             {
-                var product = this.service.Get(id);
-                this.service.DecreaseStock(product, value);
+                var product = this.productService.Get(id);
+                this.productService.DecreaseStock(product, value);
                 return Ok(new { Success = true, Message = "Decreased stock" });
             }
             catch{
@@ -137,9 +141,9 @@ namespace Stock.Api.Controllers
         public ActionResult Delete(string id)
         {
             try {
-                var product = this.service.Get(id);
+                var product = this.productService.Get(id);
 
-                this.service.Delete(product);
+                this.productService.Delete(product);
                 return Ok(new { Success = true, Message = "", data = id });
             } catch {
                 return Ok(new { Success = false, Message = "", data = id });
@@ -162,7 +166,7 @@ namespace Stock.Api.Controllers
                     model.Condition.Equals(ActionDto.AND));
             }
 
-            var products = this.service.Search(filter);
+            var products = this.productService.Search(filter);
             return Ok(products);
         }
     }

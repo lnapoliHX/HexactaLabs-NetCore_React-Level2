@@ -4,6 +4,10 @@ namespace Stock.Api.DTOs
     {
         public string Name { get; set; }
 
+        public string ProductTypeName { get; set; }
+
+        public string ProviderName { get; set; }
+
         public ActionDto Condition { get; set; } 
     }
 }
