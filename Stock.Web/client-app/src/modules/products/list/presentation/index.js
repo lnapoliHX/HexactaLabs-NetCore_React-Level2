@@ -4,14 +4,14 @@ import { Container, Row, Col, Button } from "reactstrap";
 import { FaPlus } from "react-icons/fa";
 import ReactTable from "react-table";
 import columns from "./ColumnsConfig";
-import Search from "./StoreSearch";
+import Search from "./ProductSearch";
 
 const Presentation = props => {
   return (
     <Container fluid>
       <Row className="my-1">
         <Col>
-          <h1>Tiendas</h1>
+          <h1>Productos</h1>
         </Col>
       </Row>
       <Row>

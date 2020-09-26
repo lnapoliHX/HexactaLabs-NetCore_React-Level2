@@ -20,12 +20,12 @@ const Search = props => {
         </Col>
         <Col>
           <Input
-            name="address"
-            id="addressInput"
+            name="stock"
+            id="stockInput"
             type="text"
             onChange={props.handleFilter}
-            value={props.filters.address}
-            placeholder="Dirección"
+            value={props.filters.stock}
+            placeholder="Stock"
           />
         </Col>
         <Col>

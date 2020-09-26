@@ -2,16 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
-import { getStores, getAll, fetchByFilters } from "../index";
+import { getProducts, getAll, fetchByFilters } from "../index";
 import Presentation from "../presentation";
 
 const initialState = {
   name: "",
-  address: "",
+  stock: "",
   condition: "AND"
 };
 
-class StoresPage extends React.Component {
+class ProductsPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { ...initialState };
@@ -31,11 +31,11 @@ class StoresPage extends React.Component {
   };
 
   render() {
-    const { stores, loading, ...rest } = this.props;
+    const { products, loading, ...rest } = this.props;
 
     return (
       <Presentation
-        data={stores}
+        data={products}
         dataLoading={loading}
         defaultPageSize={5}
         filters={this.state}
@@ -48,8 +48,8 @@ class StoresPage extends React.Component {
   }
 }
 
-StoresPage.propTypes = {
-  stores: PropTypes.array.isRequired,
+ProductsPage.propTypes = {
+  products: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   getAll: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
@@ -57,7 +57,7 @@ StoresPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  stores: getStores(state)
+  products: getProducts(state)
 });
 
 const mapDispatchToProps = {
@@ -69,4 +69,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(StoresPage);
+)(ProductsPage);

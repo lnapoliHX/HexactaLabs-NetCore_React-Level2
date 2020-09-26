@@ -5,19 +5,19 @@ import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 
 const renderToolbar = ({ value }) => {
   let viewButton = (
-    <Link className="store-list__button" to={`/store/view/${value}`}>
+    <Link className="store-list__button" to={`/product/view/${value}`}>
       <FaSearch className="store-list__button-icon" />
     </Link>
   );
 
   let editButton = (
-    <Link className="store-list__button" to={`/store/update/${value}`}>
+    <Link className="store-list__button" to={`/product/update/${value}`}>
       <FaEdit className="store-list__button-icon" />
     </Link>
   );
 
   let removeButton = (
-    <Link className="store-list__button" to={`/store/remove/${value}`}>
+    <Link className="store-list__button" to={`/product/remove/${value}`}>
       <FaTrash className="store-list__button-icon" />
     </Link>
   );
@@ -51,15 +51,15 @@ const columns = [
     Cell: props => props.value
   },
   {
-    Header: <HeaderComponent title="Direccion" />,
-    accessor: "address",
+    Header: <HeaderComponent title="Stock" />,
+    accessor: "stock",
     Cell: props => props.value
   },
-  {
-    Header: <HeaderComponent title="Telefono" />,
-    accessor: "phone",
-    Cell: props => props.value
-  },
+  // {
+  //   Header: <HeaderComponent title="Telefono" />,
+  //   accessor: "phone",
+  //   Cell: props => props.value
+  // },
   {
     Header: <HeaderComponent title="Acciones" />,
     accessor: "id",

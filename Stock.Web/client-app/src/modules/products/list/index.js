@@ -4,16 +4,16 @@ import { apiErrorToast } from "../../../common/api/apiErrorToast";
 
 const initialState = {
   loading: false,
-  stores: []
+  products: []
 };
 
 /* Action types */
 
-const LOADING = "STORES_LOADING";
-const SET = "STORES_SET";
-const CREATE = "STORES_CREATE";
-const UPDATE = "STORES_UPDATE";
-const REMOVE = "STORES_REMOVE";
+const LOADING = "PRODUCTS_LOADING";
+const SET = "PRODUCTS_SET";
+const CREATE = "PRODUCTS_CREATE";
+const UPDATE = "PRODUCTS_UPDATE";
+const REMOVE = "PRODUCTS_REMOVE";
 
 export const ActionTypes = {
   LOADING,
@@ -31,40 +31,40 @@ function handleLoading(state, { loading }) {
   };
 }
 
-function handleSet(state, { stores }) {
+function handleSet(state, { products }) {
   return {
     ...state,
-    stores
+    products
   };
 }
 
-function handleNewStore(state, { store }) {
+function handleNewProduct(state, { product }) {
   return {
     ...state,
-    stores: state.stores.concat(store)
+    products: state.products.concat(product)
   };
 }
 
-function handleUpdateStore(state, { store }) {
+function handleUpdateProduct(state, { product }) {
   return {
     ...state,
-    stores: state.stores.map(s => (s.id === store.id ? store : s))
+    products: state.products.map(s => (s.id === product.id ? product : s))
   };
 }
 
-function handleRemoveStore(state, { id }) {
+function handleRemoveProduct(state, { id }) {
   return {
     ...state,
-    stores: state.stores.filter(s => s.id !== id)
+    products: state.products.filter(s => s.id !== id)
   };
 }
 
 const handlers = {
   [LOADING]: handleLoading,
   [SET]: handleSet,
-  [CREATE]: handleNewStore,
-  [UPDATE]: handleUpdateStore,
-  [REMOVE]: handleRemoveStore
+  [CREATE]: handleNewProduct,
+  [UPDATE]: handleUpdateProduct,
+  [REMOVE]: handleRemoveProduct
 };
 
 export default function reducer(state = initialState, action) {
@@ -80,10 +80,10 @@ export function setLoading(status) {
   };
 }
 
-export function setStores(stores) {
+export function setProducts(products) {
   return {
     type: SET,
-    stores
+    products
   };
 }
 
@@ -91,9 +91,9 @@ export function getAll() {
   return dispatch => {
     dispatch(setLoading(true));
     return api
-      .get("/store")
+      .get("/product")
       .then(response => {
-        dispatch(setStores(response.data));
+        dispatch(setProducts(response.data));
         return dispatch(setLoading(false));
       })
       .catch(error => {
@@ -110,9 +110,9 @@ export function getById(id) {
 export function fetchByFilters(filters) {
   return function(dispatch) {
     return api
-      .post("/store/search", pickBy(filters))
+      .post("/product/search", pickBy(filters))
       .then(response => {
-        dispatch(setStores(response.data));
+        dispatch(setProducts(response.data));
       })
       .catch(error => {
         apiErrorToast(error);
@@ -122,17 +122,17 @@ export function fetchByFilters(filters) {
 
 /* Selectors */
 function base(state) {
-  return state.store.list;
+  return state.product.list;
 }
 
 export function getLoading(state) {
   return base(state).loading;
 }
 
-export function getStores(state) {
-  return base(state).stores;
+export function getProducts(state) {
+  return base(state).products;
 }
 
-export function getStoreById(state, id) {
-  return getStores(state).find(s => s.id === id);
+export function getProductById(state, id) {
+  return getProducts(state).find(s => s.id === id);
 }

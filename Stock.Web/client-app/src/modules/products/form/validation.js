@@ -3,8 +3,8 @@ import "../../../common/helpers/YupConfig";
 
 const schema = yup.object().shape({
   name: yup.string().required(),
-  address: yup.string().required(),
-  phone: yup.string().required()
+  stock: yup.number().required(),
+  
 });
 
 export default schema;
