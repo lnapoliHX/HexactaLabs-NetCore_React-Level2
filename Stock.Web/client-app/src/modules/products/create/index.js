@@ -1,13 +1,14 @@
-import { replace, goBack } from "connected-react-router";
 import api from "../../../common/api";
-import { setLoading, actionTypes } from "../list";
-import { toast } from "react-toastify";
 import { apiErrorToast } from "../../../common/api/apiErrorToast";
+import { setLoading, ActionTypes } from "../list";
+import { toast } from "react-toastify";
+import { replace } from "connected-react-router";
 
-function success(id) {
+/* Actions */
+function success(product) {
   return {
-    type: actionTypes.REMOVE,
-    id
+    type: ActionTypes.CREATE,
+    product
   };
 }
 
@@ -17,24 +18,23 @@ function handleError(dispatch, error) {
   return dispatch(setLoading(false));
 }
 
-export function remove(id) {
-  return function (dispatch) {
+export function create(product) {
+  return function(dispatch) {
     dispatch(setLoading(true));
     return api
-      .delete(`/producttype/${id}`)
+      .post(`/product/`, product)
       .then(response => {
         if (!response.data.success) {
           var error = {response: {data: {Message: response.data.message}}};
 
-         handleError(dispatch, error);
-         return dispatch(goBack());
+          return handleError(dispatch, error);
         }
 
-        dispatch(success(id));
+        dispatch(success(response.data.data));
         dispatch(setLoading(false));
-        toast.success("El tipo se eliminó con éxito");
+        toast.success("El producto se creó con éxito");
         
-        return dispatch(replace("/product-type"));
+        return dispatch(replace("/product"));
       })
       .catch(error => {
         return handleError(dispatch, error);
