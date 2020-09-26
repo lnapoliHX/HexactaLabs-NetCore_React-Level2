@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaEdit, FaTrash, FaSearch, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { FaEdit, FaTrash, FaSearch, FaPlus, FaMinus } from "react-icons/fa";
 import PropTypes from "prop-types";
 
 const renderToolbar = ({ value }) => {
@@ -24,13 +24,13 @@ const renderToolbar = ({ value }) => {
 
   let increaseStock = (
     <Link className="product-list__button" to={`/product/addStock/${value}`}>
-      <FaArrowUp className="product-list__button-icon" />
+      <FaPlus className="product-list__button-icon" />
     </Link>
   );
 
   let decreaseStock = (
-    <Link className="product-list__button" to={`/product/decStock/${value}`}>
-      <FaArrowDown className="product-list__button-icon" />
+    <Link className="product-list__button" to={`/product/subtractStock/${value}`}>
+      <FaMinus className="product-list__button-icon" />
     </Link>
   );
 

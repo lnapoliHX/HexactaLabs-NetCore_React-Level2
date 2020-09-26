@@ -16,8 +16,8 @@ const SET = "PRODUCTS_SET";
 const CREATE = "PRODUCTS_CREATE";
 const UPDATE = "PRODUCTS_UPDATE";
 const REMOVE = "PRODUCTS_REMOVE";
-const INCREASE_STOCK = "PRODUCTS_INCREASE_STOCK";
-const DECREASE_STOCK = "PRODUCTS_DECREASE_STOCK";
+const ADDSTOCK = "PRODUCTS_ADD_STOCK";
+const SUBTRACTSTOCK = "PRODUCTS_SUBTRACT_STOCK";
 
 
 export const ActionTypes = {
@@ -26,11 +26,11 @@ export const ActionTypes = {
   CREATE,
   UPDATE,
   REMOVE,
-  INCREASE_STOCK,
-  DECREASE_STOCK,
+  ADDSTOCK,
+  SUBTRACTSTOCK,
 };
 
-function handleIncreaseStock(state, { product }) {
+function handleAddStock(state, { product }) {
   product.stock = parseInt(product.stock) + parseInt(product.value);
   return {
     ...state,
@@ -38,7 +38,7 @@ function handleIncreaseStock(state, { product }) {
   };
 }
 
-function handleDecreaseStock(state, { product }) {
+function handleSubtractStock(state, { product }) {
   product.stock = parseInt(product.stock) - parseInt(product.value);
   return {
     ...state,
@@ -100,8 +100,8 @@ const handlers = {
   [CREATE]: handleNewProduct,
   [UPDATE]: handleUpdateProduct,
   [REMOVE]: handleRemoveProduct,
-  [INCREASE_STOCK]: handleIncreaseStock,
-  [DECREASE_STOCK]: handleDecreaseStock,
+  [ADDSTOCK]: handleAddStock,
+  [SUBTRACTSTOCK]: handleSubtractStock,
 };
 
 export default function reducer(state = initialState, action) {
