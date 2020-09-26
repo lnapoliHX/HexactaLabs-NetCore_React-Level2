@@ -9,7 +9,7 @@ import ProviderPage from "../providers/page";
 import LogoutPage from "../auth/containers/LogoutPage";
 import ProductTypePage from "../productType/page";
 import StorePage from "../stores/page";
-
+import ProductPage from "../products/page";
 import PropTypes from "prop-types";
 
 const Private = props => {
@@ -27,6 +27,7 @@ const App = props => (
       <Route path="/logout" component={LogoutPage} />
       <Route path="/product-type" component={ProductTypePage} />
       <Route path="/store" component={StorePage} />
+      <Route path="/product" component={ProductPage} />
     </Layout>
     <ToastContainer autoClose={2000} />
   </Private>
