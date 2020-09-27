@@ -7,6 +7,8 @@ import HomePage from "../home/container/HomePage";
 import LoginPage from "../auth/containers/LoginPage";
 import ProviderPage from "../providers/page";
 import LogoutPage from "../auth/containers/LogoutPage";
+import ProductPage from "../products/page";
+
 import ProductTypePage from "../productType/page";
 import StorePage from "../stores/page";
 
@@ -26,6 +28,8 @@ const App = props => (
       <Route path="/provider" component={ProviderPage} />
       <Route path="/logout" component={LogoutPage} />
       <Route path="/product-type" component={ProductTypePage} />
+      <Route path="/product" component={ProductPage} />
+
       <Route path="/store" component={StorePage} />
     </Layout>
     <ToastContainer autoClose={2000} />
