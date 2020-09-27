@@ -1,12 +1,13 @@
-import { replace, goBack } from "connected-react-router";
+import { replace } from "connected-react-router";
+import { setLoading, ActionTypes } from "../list";
 import api from "../../../common/api";
-import { setLoading, actionTypes } from "../list";
 import { toast } from "react-toastify";
 import { apiErrorToast } from "../../../common/api/apiErrorToast";
 
+/* Actions */
 function success(id) {
   return {
-    type: actionTypes.REMOVE,
+    type: ActionTypes.REMOVE,
     id,
   };
 }
@@ -21,22 +22,21 @@ export function remove(id) {
   return function (dispatch) {
     dispatch(setLoading(true));
     return api
-      .delete(`/producttype/${id}`)
+      .delete(`/product/${id}`)
       .then((response) => {
         if (!response.data.success) {
           var error = {
             response: { data: { Message: response.data.message } },
           };
 
-          handleError(dispatch, error);
-          return dispatch(goBack());
+          return handleError(dispatch, error);
         }
 
         dispatch(success(id));
         dispatch(setLoading(false));
-        toast.success("La categoría de producto se eliminó con éxito");
+        toast.success("¡Felicitaciones!, El producto se eliminó con éxito");
 
-        return dispatch(replace("/product-type"));
+        return dispatch(replace("/product"));
       })
       .catch((error) => {
         return handleError(dispatch, error);
