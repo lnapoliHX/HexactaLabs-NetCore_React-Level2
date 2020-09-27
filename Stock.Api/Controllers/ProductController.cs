@@ -17,7 +17,6 @@ namespace Stock.Api.Controllers
     public class ProductController : ControllerBase
     {
         private ProductService service;
-        private ProviderService providerService;
 
         private ProductTypeService productTypeService;
         private readonly IMapper mapper;
