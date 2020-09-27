@@ -152,13 +152,6 @@ namespace Stock.Api.Controllers
                     model.Condition.Equals(ActionDto.AND));
             }
 
-            /*  if (decimal.Zero <= model.SalePrice)
-              {
-                  filter = filter.AndOrCustom(
-                      x => x.SalePrice.Equals(model.SalePrice),
-                      model.Condition.Equals(ActionDto.AND));
-              }
-  */
             var products = this.service.Search(filter);
             return Ok(products);
         }
