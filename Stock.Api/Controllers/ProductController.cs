@@ -100,6 +100,10 @@ namespace Stock.Api.Controllers
                 var product = this.serviceProduct.Get(id);
                 TryValidateModel(value);
                 this.mapper.Map<ProductDTO,Product>(value,product);
+                var productType = this.serviceProductType.Get(value.ProductTypeId);
+                if(productType == null){
+                    return Ok(new {success = false, message = "ProductType not found"});
+                }
                 this.serviceProduct.Update(product);
                 return Ok(new {success = true, message = "", data = value});
             }
