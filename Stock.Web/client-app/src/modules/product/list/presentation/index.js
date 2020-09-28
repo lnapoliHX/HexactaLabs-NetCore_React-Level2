@@ -14,7 +14,7 @@ const Presentation = props => {
           <h1>Producto</h1>
         </Col>
       </Row>
-      <Row>
+      {/* <Row>
         <Col>
           <Search
             handleFilter={props.onFilterChange}
@@ -23,7 +23,7 @@ const Presentation = props => {
             filters={props.filters}
           />
         </Col>
-      </Row>
+      </Row> */}
       <Row className="my-1">
         <Col>
           <Button

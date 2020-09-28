@@ -6,7 +6,7 @@ import Validator from "../../../../common/helpers/YupValidator";
 import InputField from "../../../../components/inputs/InputField";
 import SelectField from "../../../../components/inputs/SelectField";
 import schema from "../validation";
-import { getAll } from "../../../productType/list/"
+import { fetchAll } from "../../../productType/list/"
 import { connect } from "react-redux";
 
 const ProductForm = props => {
@@ -14,7 +14,7 @@ const ProductForm = props => {
   const { handleSubmit, handleCancel, productTypeList } = props;
   
   useEffect(function () {
-    props.getAll()
+    props.fetchAll()
   }, [])
 
   return (
@@ -66,11 +66,11 @@ const ProductForm = props => {
 
 const mapStateToProps = function (state) {
   return {
-    productTypeList: state.productType.list.productTypes
+    productTypeList: state.productType.list.types
   }
 }
 
-const ConnectedForm = connect(mapStateToProps, { getAll })(ProductForm)
+const ConnectedForm = connect(mapStateToProps, { fetchAll })(ProductForm)
 
 ProductForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,

@@ -6,7 +6,7 @@ const ElementRemove = ({ remove, goBack }) => {
   return (
     <Modal isOpen>
       <ModalHeader>Eliminar Producto</ModalHeader>
-      <ModalBody>¿Desea eliminar esta Categoria?</ModalBody>
+      <ModalBody>¿Desea eliminar este Producto?</ModalBody>
       <ModalFooter>
         <Button color="danger" onClick={remove}>
           Si

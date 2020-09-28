@@ -66,7 +66,7 @@ const columns = [
     Cell: props => props.value
   },
   {
-    Header: <HeaderComponent title="Costo de Venta" />,
+    Header: <HeaderComponent title="Categoria" />,
     accessor: "productTypeDesc",
     Cell: props => props.value
   },
