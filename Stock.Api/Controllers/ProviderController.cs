@@ -16,12 +16,14 @@ namespace Stock.Api.Controllers
     [ApiController]
     public class ProviderController : ControllerBase
     {
-        private ProviderService service;
+        private ProviderService providerService;
+        private ProductService productService;
         private readonly IMapper mapper;
 
-        public ProviderController(ProviderService service, IMapper mapper)
+        public ProviderController(ProviderService providerService, ProductService productService, IMapper mapper)
         {
-            this.service = service;
+            this.providerService = providerService;
+            this.productService = productService;
             this.mapper = mapper;
         }
 
@@ -33,7 +35,7 @@ namespace Stock.Api.Controllers
             try
             {
                 var provider = this.mapper.Map<Provider>(value);
-                this.service.Create(provider);
+                this.providerService.Create(provider);
                 value.Id = provider.Id;
                 return Ok(new { Success = true, Message = "", data = value });
             }
@@ -48,7 +50,7 @@ namespace Stock.Api.Controllers
         {
             try
             {
-                var result = this.service.GetAll();
+                var result = this.providerService.GetAll();
                 return this.mapper.Map<IEnumerable<ProviderDTO>>(result).ToList();
             }
             catch (Exception)
@@ -62,7 +64,7 @@ namespace Stock.Api.Controllers
         {
             try
             {
-                var result = this.service.Get(id);
+                var result = this.providerService.Get(id);
                 return this.mapper.Map<ProviderDTO>(result);
             }
             catch (Exception)
@@ -74,10 +76,19 @@ namespace Stock.Api.Controllers
         [HttpPut("{id}")]
         public void Put(string id, [FromBody] ProviderDTO value)
         {
-            var provider = this.service.Get(id);
+            var provider = this.providerService.Get(id);
             TryValidateModel(value);
             this.mapper.Map<ProviderDTO, Provider>(value, provider);
-            this.service.Update(provider);
+            this.providerService.Update(provider);
+
+            Func<Product, bool> filter = x => x.Provider.Id.Equals(value.Id);
+            var products = this.productService.GetAll();
+            foreach (Product product in products){
+                if(filter(product)){
+                    product.Provider = provider;
+                    this.productService.Update(product);
+                }
+            }
         }
 
         /// <summary>
@@ -88,12 +99,24 @@ namespace Stock.Api.Controllers
         public ActionResult Delete(string id)
         {
             try {
-                var provider = this.service.Get(id);
+                var provider = this.providerService.Get(id);
+                var isUsed = false;
 
-                Expression<Func<Product, bool>> filter = x => x.ProviderId.Equals(id);
+                Func<Product, bool> filter = x => x.Provider.Id.Equals(id);
+                var products = this.productService.GetAll();
+                foreach (Product product in products){
+                    if(filter(product)){
+                        isUsed = true;
+                        break;
+                    }
+                }
 
-                this.service.Delete(provider);
-                return Ok(new { Success = true, Message = "", data = id });
+                if(!isUsed){
+                    this.providerService.Delete(provider);
+                    return Ok(new { Success = true, Message = "", data = id });
+                }
+
+                return Ok(new { Success = false, Message = "No se puede eliminar un proveedor que esté asociado a un producto", data = id });
             } catch {
                 return Ok(new { Success = false, Message = "", data = id });
             }
@@ -118,7 +141,7 @@ namespace Stock.Api.Controllers
                     model.Condition.Equals(ActionDto.AND));
             }
 
-            var providers = this.service.Search(filter);
+            var providers = this.providerService.Search(filter);
             return Ok(providers);
         }
     }
