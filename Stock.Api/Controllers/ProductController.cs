@@ -171,7 +171,7 @@ namespace Stock.Api.Controllers
         /// </summary>
         /// <param  name="model"> Criterio de Busqueda </param>
         [HttpPost("search")]
-        public ActionResult Search([FromBody] ProductSearchDTO model)
+        public ActionResult<ProductDTO> Search([FromBody] ProductSearchDTO model)
         {
             Expression<Func<Product, bool>> filter = x => !string.IsNullOrWhiteSpace(x.Id);
 
@@ -183,7 +183,7 @@ namespace Stock.Api.Controllers
             }
             try{
                 var products = this.serviceProduct.Search(filter);
-                return Ok(products);
+                return Ok(this.mapper.Map<IEnumerable<ProductDTO>>(products).ToList());
             }
             catch{
                 return StatusCode(StatusCodes.Status500InternalServerError);    
