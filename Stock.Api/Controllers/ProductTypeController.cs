@@ -15,12 +15,14 @@ namespace Stock.Api.Controllers
     [ApiController]
     public class ProductTypeController : ControllerBase
     {
-        private readonly ProductTypeService service;
+        private readonly ProductTypeService productTypeService;
+        private readonly ProductService productService;
         private readonly IMapper mapper;
         
-        public ProductTypeController(ProductTypeService service, IMapper mapper)
+        public ProductTypeController(ProductTypeService productTypeService, ProductService productService, IMapper mapper)
         {
-            this.service = service;
+            this.productTypeService = productTypeService;
+            this.productService = productService;
             this.mapper = mapper;
         }
 
@@ -31,7 +33,7 @@ namespace Stock.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ProductTypeDTO>> Get()
         {
-            return this.mapper.Map<IEnumerable<ProductTypeDTO>>(this.service.GetAll()).ToList();
+            return this.mapper.Map<IEnumerable<ProductTypeDTO>>(this.productTypeService.GetAll()).ToList();
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace Stock.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<ProductTypeDTO> Get(string id)
         {
-            return this.mapper.Map<ProductTypeDTO>(this.service.Get(id));
+            return this.mapper.Map<ProductTypeDTO>(this.productTypeService.Get(id));
         }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace Stock.Api.Controllers
             try
             {
                 var productType = this.mapper.Map<ProductType>(value);
-                this.service.Create(productType);
+                this.productTypeService.Create(productType);
                 value.Id = productType.Id;
                 return Ok(new { Success = true, Message = "", data = value });
             }
@@ -75,10 +77,19 @@ namespace Stock.Api.Controllers
         [HttpPut("{id}")]
         public void Put(string id, [FromBody] ProductTypeDTO value)
         {
-            var productType = this.service.Get(id);
+            var productType = this.productTypeService.Get(id);
             TryValidateModel(value);
             this.mapper.Map<ProductTypeDTO, ProductType>(value, productType);
-            this.service.Update(productType);
+            this.productTypeService.Update(productType);
+
+            Func<Product, bool> filter = x => x.ProductType.Id.Equals(value.Id);
+            var products = this.productService.GetAll();
+            foreach (Product product in products){
+                if(filter(product)){
+                    product.ProductType = productType;
+                    this.productService.Update(product);
+                }
+            }
         }
 
         /// <summary>
@@ -89,12 +100,24 @@ namespace Stock.Api.Controllers
         public ActionResult Delete(string id)
         {
             try {
-                var productType = this.service.Get(id);
+                var productType = this.productTypeService.Get(id);
+                var isUsed = false;
 
-                Expression<Func<Product, bool>> filter = x => x.ProductType.Id.Equals(id);
+                Func<Product, bool> filter = x => x.ProductType.Id.Equals(id);
+                var products = this.productService.GetAll();
+                foreach (Product product in products){
+                    if(filter(product)){
+                        isUsed = true;
+                        break;
+                    }
+                }
                 
-                this.service.Delete(productType);
-                return Ok(new { Success = true, Message = "", data = id });
+                if(!isUsed){
+                    this.productTypeService.Delete(productType);
+                    return Ok(new { Success = true, Message = "", data = id });
+                }
+
+                return Ok(new { Success = false, Message = "No se puede eliminar una categoría que esté asociada a un producto", data = id });
             } catch {
                 return Ok(new { Success = false, Message = "", data = id });
             }

@@ -19,20 +19,6 @@ namespace Stock.Model.Entities
 
         public int Stock { get; set; }
 
-        public void DecreaseStock(int value)
-        {
-            if (this.Stock - value < 0)
-                throw new ModelException("No hay stock disponible para efectuar la operación.");
-
-            this.Stock -= value;
-        }
-
-        public void IncreaseStock(int value)
-        {
-            this.Stock += value;
-        }
-
-        public string ProviderId { get; set; }
         public Provider Provider { get; set; }
     }
 }

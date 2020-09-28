@@ -18,12 +18,14 @@ namespace Stock.Api.Controllers
     {
         private ProductService productService;
         private ProviderService providerService;
+        private ProductTypeService productTypeService;
         private readonly IMapper mapper;
 
-        public ProductController(ProductService productService, ProviderService providerService, IMapper mapper)
+        public ProductController(ProductService productService, ProviderService providerService, ProductTypeService productTypeService, IMapper mapper)
         {
             this.productService = productService;
             this.providerService = providerService;
+            this.productTypeService = productTypeService;
             this.mapper = mapper;
         }
 
@@ -39,10 +41,13 @@ namespace Stock.Api.Controllers
             try
             {
                 var product = this.mapper.Map<Product>(value);
-                //var provider = this.providerService.Get(value.ProviderId);
-                //product.Provider = provider;
+                var provider = this.providerService.Get(value.ProviderId);
+                product.Provider = provider;
+                var productType = this.productTypeService.Get(value.ProductTypeId);
+                product.ProductType = productType;
                 this.productService.Create(product);
-                value.Id = product.Id;
+                value = this.mapper.Map<ProductDTO>(product);
+
                 return Ok(new { Success = true, Message = "", data = value });
             }
             catch
@@ -99,38 +104,11 @@ namespace Stock.Api.Controllers
             var product = this.productService.Get(id);
             TryValidateModel(value);
             this.mapper.Map<ProductDTO, Product>(value, product);
+            var provider = this.providerService.Get(value.ProviderId);
+            product.Provider = provider;
+            var productType = this.productTypeService.Get(value.ProductTypeId);
+            product.ProductType = productType;
             this.productService.Update(product);
-        }
-
-        /// <summary>
-        /// Permite incrementar el stock de una instancia
-        /// </summary>
-        /// <param name="id">Identificador de la instancia a editar</param>
-        /// <param name="value">Cantidad de stock a agregar</param>
-        [HttpPut("{id}/increasestock")]
-        public void IncreaseStock(string id, int value)
-        {
-            var product = this.productService.Get(id);
-            this.productService.IncreaseStock(product, value);
-        }
-
-        /// <summary>
-        /// Permite decrementar el stock de una instancia
-        /// </summary>
-        /// <param name="id">Identificador de la instancia a editar</param>
-        /// <param name="value">Cantidad de stock a decrementar</param>
-        [HttpPut("{id}/decreasestock")]
-        public ActionResult DecreaseStock(string id, int value)
-        {
-            try
-            {
-                var product = this.productService.Get(id);
-                this.productService.DecreaseStock(product, value);
-                return Ok(new { Success = true, Message = "Decreased stock" });
-            }
-            catch{
-                return Ok(new { Success = false, Message = "Insufficient stock" });
-            }
         }
 
         /// <summary>
@@ -158,7 +136,7 @@ namespace Stock.Api.Controllers
         public ActionResult Search([FromBody] ProductSearchDTO model)
         {
             Expression<Func<Product, bool>> filter = x => !string.IsNullOrWhiteSpace(x.Id);
-
+            
             if (!string.IsNullOrWhiteSpace(model.Name))
             {
                 filter = filter.AndOrCustom(
@@ -166,8 +144,23 @@ namespace Stock.Api.Controllers
                     model.Condition.Equals(ActionDto.AND));
             }
 
+            if (!string.IsNullOrWhiteSpace(model.ProviderName))
+            {
+                filter = filter.AndOrCustom(
+                    x => x.Provider.Name.ToUpper().Contains(model.ProviderName.ToUpper()),
+                    model.Condition.Equals(ActionDto.AND));
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.ProductTypeDesc))
+            {
+                filter = filter.AndOrCustom(
+                    x => x.ProductType.Description.ToUpper().Contains(model.ProductTypeDesc.ToUpper()),
+                    model.Condition.Equals(ActionDto.AND));
+            }
+
             var products = this.productService.Search(filter);
-            return Ok(products);
+            var result = this.mapper.Map<IEnumerable<ProductDTO>>(products).ToList();
+            return Ok(result);
         }
     }
 }

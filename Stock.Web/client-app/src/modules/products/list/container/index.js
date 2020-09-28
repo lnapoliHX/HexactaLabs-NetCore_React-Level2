@@ -11,6 +11,8 @@ class ProductsPage extends React.Component {
     this.state = {
       filters: {
         name: "",
+        providerName: "",
+        productTypeDesc: "",
         condition: "AND"
       }
     };

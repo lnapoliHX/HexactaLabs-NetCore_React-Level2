@@ -126,7 +126,7 @@ export function fetchByFilters(filters) {
     return api
       .post("/product/search", pickBy(filters))
       .then(response => {
-        dispatch(setProducts(response.data));
+        dispatch(setProducts(response.data))
       })
       .catch(error => {
         apiErrorToast(error);

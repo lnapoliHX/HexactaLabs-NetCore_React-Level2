@@ -26,7 +26,8 @@ export function remove(id) {
         if (!response.data.success) {
           var error = {response: {data: {Message: response.data.message}}};
 
-          return handleError(dispatch, error);
+          dispatch(handleError(dispatch, error));
+          return dispatch(replace("/product-type"));
         }
 
         dispatch(success(id));

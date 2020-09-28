@@ -38,14 +38,5 @@ namespace Stock.AppService.Services
             return this.Repository.List(filter);
         }
 
-        public void IncreaseStock(Product entity, int value)
-        {
-            entity.IncreaseStock(value);
-        }
-
-        public void DecreaseStock(Product entity, int value)
-        {
-            entity.DecreaseStock(value);
-        }
     }
 }
