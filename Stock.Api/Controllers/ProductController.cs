@@ -42,7 +42,6 @@ namespace Stock.Api.Controllers
                     return Ok(new {success = false, message = "ProductType not found"});
                 }
                 product.ProductType = productType;
-                //product.SumarStock(value.stock); // Validar que sea Mayor a Cero
                 this.serviceProduct.Create(product);
                 value.Id = product.Id;
                 return Ok(new {success = true, message="", data = value});
