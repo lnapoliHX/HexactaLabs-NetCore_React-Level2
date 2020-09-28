@@ -8,6 +8,7 @@ import LoginPage from "../auth/containers/LoginPage";
 import ProviderPage from "../providers/page";
 import LogoutPage from "../auth/containers/LogoutPage";
 import ProductTypePage from "../productType/page";
+import ProductPage from "../products/page";
 import StorePage from "../stores/page";
 
 import PropTypes from "prop-types";
@@ -24,6 +25,7 @@ const App = props => (
     <Layout {...props}>
       <Route exact path="/" component={HomePage} />
       <Route path="/provider" component={ProviderPage} />
+      <Route path="/product" component={ProductPage} />
       <Route path="/logout" component={LogoutPage} />
       <Route path="/product-type" component={ProductTypePage} />
       <Route path="/store" component={StorePage} />
