@@ -25,6 +25,9 @@ namespace Stock.Model.Entities
             {
                 return this._stock;
             }
+            set{
+                this._stock = value;
+            }
         }
 
         public void DescontarStock(int value)
