@@ -1,20 +1,19 @@
-/* eslint-disable */
 import React from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
-import { getProviders, getAll, fetchByFilters } from "../index";
+import { getProducts, getAll, fetchByFilters } from "../index";
 import Presentation from "../presentation";
 
-class ProvidersPage extends React.Component {
+class ProductsPage extends React.Component {
   constructor() {
     super();
     this.state = {
       filters: {
         name: "",
-        email: "",
-        condition: "AND"
-      }
+        productTypeDesc: "",
+        condition: "AND",
+      },
     };
   }
 
@@ -29,12 +28,14 @@ class ProvidersPage extends React.Component {
   render() {
     return (
       <Presentation
-        data={this.props.providers}
+        data={this.props.products}
         dataLoading={this.props.loading}
         defaultPageSize={5}
         filters={this.state.filters}
         handleFilter={this.filterChanged}
+        // eslint-disable-next-line react/prop-types
         submitFilter={() => this.props.fetchByFilters(this.state.filters)}
+        // eslint-disable-next-line react/prop-types
         clearFilter={this.props.getAll}
         {...this.props}
       />
@@ -42,13 +43,13 @@ class ProvidersPage extends React.Component {
   }
 }
 
-ProvidersPage.propTypes = {
-  providers: PropTypes.array.isRequired,
+ProductsPage.propTypes = {
+  products: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => {
-  return { providers: getProviders(state) };
+  return { products: getProducts(state) };
 };
 
 const mapDispatchToProps = {
@@ -60,4 +61,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProvidersPage);
+)(ProductsPage);
