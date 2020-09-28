@@ -17,7 +17,7 @@ namespace Stock.Model.Entities
 
         public virtual ProductType ProductType { get; set; }
 
-        private int _stock;
+        private int _stock { get; set; }
 
         public int Stock
         {
