@@ -25,7 +25,7 @@ namespace Stock.Api.Controllers
 
         // GET: api/<ProductController>
         [HttpGet]
-        public ActionResult <IEnumerable<ProductDTO>> Get()
+        public ActionResult<IEnumerable<ProductDTO>> Get()
         {
             var result = this.service.GetAll();
             return this.mapper.Map<IEnumerable<ProductDTO>>(result).ToList();
@@ -33,9 +33,9 @@ namespace Stock.Api.Controllers
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<ProductDTO> Get(string id)
         {
-            return "value";
+            return this.mapper.Map<ProductDTO>(this.service.Get(id));
         }
 
         // POST api/<ProductController>
@@ -44,22 +44,45 @@ namespace Stock.Api.Controllers
         {
 
             var product = this.mapper.Map<Product>(value);
+            product.SumarStock(value.Stock);
             this.service.Create(product);
             value.Id = product.Id;
+            value.ProductType = product.ProductType;
             return Ok(new { Success = true, Message = "", data = value });
 
         }
 
         // PUT api/<ProductController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(string id, [FromBody] ProductDTO value)
         {
+
+            var product = this.service.Get(id);
+            
+            TryValidateModel(value);
+            this.mapper.Map<ProductDTO, Product>(value, product);
+            
+            this.service.UptdateP(product, value.Stock);
+            
         }
 
         // DELETE api/<ProductController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(string id)
         {
+            try
+            {
+                var product = this.service.Get(id);
+
+                this.service.Delete(product);
+                return Ok(new { Success = true, Message = "", data = id });
+            }
+            catch
+            {
+                return Ok(new { Success = false, Message = "", data = id });
+            }
+
+
         }
     }
 }

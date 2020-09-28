@@ -11,7 +11,7 @@ namespace Stock.Api.DTOs
     public class ProductDTO
     {
         public string Id { get; set; }
-        
+
         [Required]
         public string Name { get; set; }
 
@@ -19,14 +19,14 @@ namespace Stock.Api.DTOs
 
         public decimal SalePrice { get; set; }
 
-        //public virtual ProductType ProductType { get; set; }
+        public virtual ProductType ProductType { get; set; }
 
-        public int Stock{ get; set; }
+        public int Stock { get; set; }
         public string ProviderId { get; set; }
-        //public ProviderDTO Provider { get; set; }
-
+        public virtual ProviderDTO Provider { get; set; }
+        //public string ProviderName { get; set; }
         public string ProductTypeId { get; set; }
-        public string ProductTypeDesc { get; set; }
+        //public string ProductTypeDesc { get; set; }
 
 
     }
