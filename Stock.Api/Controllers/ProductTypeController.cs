@@ -17,11 +17,14 @@ namespace Stock.Api.Controllers
     {
         private readonly ProductTypeService service;
         private readonly IMapper mapper;
-        
-        public ProductTypeController(ProductTypeService service, IMapper mapper)
+
+        private readonly ProductService productService;
+
+        public ProductTypeController(ProductTypeService service, IMapper mapper, ProductService productService)
         {
             this.service = service;
             this.mapper = mapper;
+            this.productService = productService;
         }
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace Stock.Api.Controllers
         public ActionResult Post([FromBody] ProductTypeDTO value)
         {
             TryValidateModel(value);
-            
+
             try
             {
                 var productType = this.mapper.Map<ProductType>(value);
@@ -88,14 +91,30 @@ namespace Stock.Api.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {
-            try {
+            try
+            {
                 var productType = this.service.Get(id);
 
                 Expression<Func<Product, bool>> filter = x => x.ProductType.Id.Equals(id);
-                
+
+                var products = this.productService.Search(filter);
+
                 this.service.Delete(productType);
-                return Ok(new { Success = true, Message = "", data = id });
-            } catch {
+
+
+               
+                if(products.Count() == 0)
+                {
+                    this.service.Delete(productType);
+                    return Ok(new { Success = true, Message = "", data = id });
+                }
+                else
+                {
+                    return Ok(new { Success = false, Message = "No se puede eliminar, existen productos con esta categoría.", data = id });
+                }
+            }
+            catch
+            {
                 return Ok(new { Success = false, Message = "", data = id });
             }
         }

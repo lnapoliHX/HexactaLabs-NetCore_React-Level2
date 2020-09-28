@@ -18,11 +18,13 @@ namespace Stock.Api.Controllers
     {
         private ProviderService service;
         private readonly IMapper mapper;
+        private ProductService productService;
 
-        public ProviderController(ProviderService service, IMapper mapper)
+        public ProviderController(ProviderService service, IMapper mapper, ProductService productService)
         {
             this.service = service;
             this.mapper = mapper;
+            this.productService = productService;
         }
 
         [HttpPost]
@@ -87,14 +89,26 @@ namespace Stock.Api.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {
-            try {
+            try
+            {
                 var provider = this.service.Get(id);
 
-                Expression<Func<Product, bool>> filter = x => x.ProviderId.Equals(id);
+                Func<Product, bool> filter = x => x.ProviderId.Equals(id);
+                var products = productService.GetAll();
+                foreach (Product product in products)
+                {
+                    if (filter(product))
+                    {
+                        this.productService.Delete(product);
+                    }
+                }
+                this.service.Delete(provider);
 
                 this.service.Delete(provider);
                 return Ok(new { Success = true, Message = "", data = id });
-            } catch {
+            }
+            catch
+            {
                 return Ok(new { Success = false, Message = "", data = id });
             }
         }
