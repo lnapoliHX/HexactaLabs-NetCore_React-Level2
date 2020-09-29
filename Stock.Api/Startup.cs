@@ -17,7 +17,6 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
-
 namespace Stock.Api
 {
     public class Startup
@@ -26,9 +25,7 @@ namespace Stock.Api
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -36,6 +33,7 @@ namespace Stock.Api
             services.Configure<DomainSettings>(Configuration.GetSection("DomainSettings"));
             services.AddTransient<StoreService>();
             //services.AddTransient<ProductService>();
+            services.AddTransient<ProductService>();
             services.AddTransient<ProviderService>();
             services.AddTransient<ProductTypeService>();
             services.AddTransient<Repository.LiteDb.Configuration.ConfigurationProvider>();
@@ -45,26 +43,21 @@ namespace Stock.Api
             services.AddTransient<IRepository<Product>, BaseRepository<Product>>();
             services.AddTransient<IRepository<ProductType>, BaseRepository<ProductType>>();
             services.AddTransient<IRepository<Store>, BaseRepository<Store>>();
-
             services.AddAutoMapper();
-
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Stock API", Version = "v1", Description = "Stock API v1" });
-
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
         }
-
         private void OnShutdown()
         {
            // MySqlConnection.ClearAllPools();
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
             IApplicationBuilder app, 
@@ -82,14 +75,10 @@ namespace Stock.Api
                 app.UseExceptionMiddleware();
                 //app.UseExceptionHandler();
             }
-
             //app.UseCors(b => b.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
-
             loggerFactory.AddConsole();
-
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
@@ -97,7 +86,6 @@ namespace Stock.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Stock API V1");
                // c.RoutePrefix = "docs";
             });
-
             applicationLifetime.ApplicationStopping.Register(OnShutdown);                        
             app.UseMvc();
         }
