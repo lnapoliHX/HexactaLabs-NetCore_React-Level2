@@ -17,7 +17,7 @@ namespace Stock.Api.Controllers
     {
         private readonly ProductTypeService service;
         private readonly IMapper mapper;
-        
+
         public ProductTypeController(ProductTypeService service, IMapper mapper)
         {
             this.service = service;
@@ -53,7 +53,7 @@ namespace Stock.Api.Controllers
         public ActionResult Post([FromBody] ProductTypeDTO value)
         {
             TryValidateModel(value);
-            
+
             try
             {
                 var productType = this.mapper.Map<ProductType>(value);
@@ -88,14 +88,17 @@ namespace Stock.Api.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {
-            try {
+            try
+            {
                 var productType = this.service.Get(id);
 
                 Expression<Func<Product, bool>> filter = x => x.ProductType.Id.Equals(id);
-                
+
                 this.service.Delete(productType);
                 return Ok(new { Success = true, Message = "", data = id });
-            } catch {
+            }
+            catch
+            {
                 return Ok(new { Success = false, Message = "", data = id });
             }
         }
