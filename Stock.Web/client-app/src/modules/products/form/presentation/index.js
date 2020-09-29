@@ -9,14 +9,13 @@ import schema from "../validation";
 
 const ProductForm = props => {
   const { handleSubmit, handleCancel } = props;
-  const tipos = [{value: '51f73eff-fb45-48b6-a1b2-075dbea80591', label: 'PT1'}, {value: 'de6b27c1-8b7f-49b5-97e4-70d66ae744bd', label: 'PT2'} ];
   return (
     <Form onSubmit={handleSubmit} className="addForm">
       <Field label="Nombre" name="name" component={InputField} type="text" />
       <Field label="Precio" name="costPrice" component={InputField} type="text" />
       <Field label="Precio de Venta" name="salePrice" component={InputField} type="text" />
-      <Field label="Tipo de Producto" name="productTypeId" component={SelectField} type="select" options={tipos} />
-      <Field label="Proveedor" name="providerId" component={InputField} type="text" />
+      <Field label="Tipo de Producto" name="productTypeId" component={SelectField} type="select" options={props.productTypeOptions} />
+      <Field label="Proveedor" name="providerId" component={SelectField} type="select" options={props.providerOptions}/>
       <Button className="product-form__button" color="primary" type="submit">
         Guardar
       </Button>
@@ -34,7 +33,9 @@ const ProductForm = props => {
 
 ProductForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  handleCancel: PropTypes.func.isRequired
+  handleCancel: PropTypes.func.isRequired,
+  productTypeOptions: PropTypes.array.isRequired,
+  providerOptions: PropTypes.array.isRequired
 };
 
 export default reduxForm({

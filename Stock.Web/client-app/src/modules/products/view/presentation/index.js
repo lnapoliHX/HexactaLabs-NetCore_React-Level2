@@ -19,7 +19,7 @@ const ProductView = props => {
 			</Row>
 			<Row>
 				<Col lg="2">Tipo de Producto</Col>
-				<Col>{props.product.productTypeId}</Col>
+				<Col>{props.product.productTypeDesc}</Col>
 			</Row>
 			<Row>
 				<Col lg="2">Stock</Col>
@@ -27,7 +27,7 @@ const ProductView = props => {
 			</Row>
 			<Row>
 				<Col lg="2">Proveedor</Col>
-				<Col>{props.product.providerId}</Col>
+				<Col>{props.provider.name}</Col>
 			</Row>
 		</div>
 		<div className="product-view__button-row">
@@ -66,7 +66,8 @@ const ProductView = props => {
 ProductView.propTypes = {
   product: PropTypes.object.isRequired,
   push: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  provider: PropTypes.object.isRequired,
 };
 
 export default ProductView;
