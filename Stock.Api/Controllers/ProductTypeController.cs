@@ -17,11 +17,13 @@ namespace Stock.Api.Controllers
     {
         private readonly ProductTypeService service;
         private readonly IMapper mapper;
+        private readonly ProductService productService;
         
-        public ProductTypeController(ProductTypeService service, IMapper mapper)
+        public ProductTypeController(ProductTypeService service, IMapper mapper, ProductService pService)
         {
             this.service = service;
             this.mapper = mapper;
+            this.productService = pService;
         }
 
         /// <summary>
@@ -92,9 +94,14 @@ namespace Stock.Api.Controllers
                 var productType = this.service.Get(id);
 
                 Expression<Func<Product, bool>> filter = x => x.ProductType.Id.Equals(id);
+                var products = this.productService.Search(filter);
                 
-                this.service.Delete(productType);
-                return Ok(new { Success = true, Message = "", data = id });
+                if(products.Count()==0){
+                    this.service.Delete(productType);
+                    return Ok(new { Success = true, Message = "", data = id });
+                } else {
+                    return Ok(new { Success = false, Message = "No se puede eliminar, existen productos con esta categoría.", data = id });
+                }
             } catch {
                 return Ok(new { Success = false, Message = "", data = id });
             }

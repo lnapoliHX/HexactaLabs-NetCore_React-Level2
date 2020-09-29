@@ -1,4 +1,4 @@
-import { goBack, replace } from "connected-react-router";
+import { replace } from "connected-react-router";
 import { setLoading, ActionTypes } from "../list";
 import api from "../../../common/api";
 import { toast } from "react-toastify";
@@ -22,20 +22,19 @@ export function remove(id) {
   return function(dispatch) {
     dispatch(setLoading(true));
     return api
-      .delete(`/provider/${id}`)
+      .delete(`/product/${id}`)
       .then(response => {
         if (!response.data.success) {
           var error = {response: {data: {Message: response.data.message}}};
 
-          handleError(dispatch, error);
-          return dispatch(goBack());
+          return handleError(dispatch, error);
         }
 
         dispatch(success(id));
         dispatch(setLoading(false));
-        toast.success("Se eliminó el proveedor con éxito");
+        toast.success("Se eliminó el producto con éxito");
         
-        return dispatch(replace("/provider"));
+        return dispatch(replace("/product"));
       })
       .catch(error => {
         return handleError(dispatch, error);

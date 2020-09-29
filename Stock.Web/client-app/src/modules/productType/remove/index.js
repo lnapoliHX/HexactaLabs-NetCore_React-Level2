@@ -1,4 +1,4 @@
-import { replace } from "connected-react-router";
+import { replace, goBack } from "connected-react-router";
 import api from "../../../common/api";
 import { setLoading, actionTypes } from "../list";
 import { toast } from "react-toastify";
@@ -26,7 +26,8 @@ export function remove(id) {
         if (!response.data.success) {
           var error = {response: {data: {Message: response.data.message}}};
 
-          return handleError(dispatch, error);
+         handleError(dispatch, error);
+         return dispatch(goBack());
         }
 
         dispatch(success(id));
