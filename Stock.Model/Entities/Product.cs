@@ -17,27 +17,27 @@ namespace Stock.Model.Entities
 
         public virtual ProductType ProductType { get; set; }
 
-        private int _stock;
+        public int stock;
 
         public int Stock
         {
             get
             {
-                return this._stock;
+                return this.stock;
             }
         }
 
         public void DescontarStock(int value)
         {
-            if (this._stock - value < 0)
+            if (this.stock - value < 0)
                 throw new ModelException("No hay stock disponible para efectuar la operación.");
 
-            this._stock -= value;
+            this.stock -= value;
         }
 
         public void SumarStock(int value)
         {
-            this._stock += value;
+            this.stock += value;
         }
 
         public string ProviderId { get; set; }
