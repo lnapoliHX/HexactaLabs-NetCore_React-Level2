@@ -1,7 +1,6 @@
 import React from "react";
 import { Route } from "react-router";
 import { ToastContainer } from "react-toastify";
-
 import Layout from "../../components/Layout";
 import HomePage from "../home/container/HomePage";
 import LoginPage from "../auth/containers/LoginPage";
@@ -9,6 +8,7 @@ import ProviderPage from "../providers/page";
 import LogoutPage from "../auth/containers/LogoutPage";
 import ProductTypePage from "../productType/page";
 import StorePage from "../stores/page";
+import ProductPage from "../products/page";
 
 import PropTypes from "prop-types";
 
@@ -18,7 +18,6 @@ const Private = props => {
   }
   return <LoginPage />;
 };
-
 const App = props => (
   <Private>
     <Layout {...props}>
@@ -27,14 +26,13 @@ const App = props => (
       <Route path="/logout" component={LogoutPage} />
       <Route path="/product-type" component={ProductTypePage} />
       <Route path="/store" component={StorePage} />
+      <Route path="/product" component={ProductPage} />
     </Layout>
     <ToastContainer autoClose={2000} />
   </Private>
 );
-
 Private.propTypes = {
   children: PropTypes.array
 };
-
 App.displayName = "App";
 export default App;
