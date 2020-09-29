@@ -28,7 +28,7 @@ namespace Stock.Api.DTOs
 
         public int Stock { get; set;}
         
-        private int _stock { get; set;}
+        public int _stock { get; set;}
 
     }
 }
