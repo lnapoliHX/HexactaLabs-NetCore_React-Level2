@@ -18,14 +18,15 @@ namespace Stock.Api.Controllers
     {
         private readonly ProductService service;
         private readonly IMapper mapper;
-
         private readonly ProductTypeService productTypeService;
+        private readonly ProviderService providerService;
         
-        public ProductController(ProductService service, IMapper mapper, ProductTypeService ptservice)
+        public ProductController(ProductService service, IMapper mapper, ProductTypeService ptservice, ProviderService pservice)
         {
             this.service = service;
             this.mapper = mapper;
             this.productTypeService = ptservice;
+            this.providerService = pservice;
         }
 
         /// <summary>
@@ -58,14 +59,21 @@ namespace Stock.Api.Controllers
         {
                 var product = this.mapper.Map<Product>(value);
                 var producttype = this.productTypeService.Get(value.ProductTypeId);
-                if(producttype!=null){
+                var provider = this.providerService.Get(value.ProviderId);
+                if(producttype!=null && provider!=null){
                     product.ProductType = producttype;
-                    this.service.Create(product);
-                    value.Id = product.Id;
-                    value.ProductTypeDesc = producttype.Description;
-                    return Ok(new { Success = true, Message = "", data = value });
+                    product.Provider = provider;
+                    if(value.Stock>=0){
+                        this.service.Create(product);
+                        value.Id = product.Id;
+                        value.ProductTypeDesc = producttype.Description;
+                        value.ProviderName = provider.Name;
+                        return Ok(new { Success = true, Message = "", data = value });
+                    }else {
+                        return Ok(new { Success = false, Message = "Stock debe ser valor mayor a cero." });
+                    }
                 }else {
-                    return Ok(new { Success = false, Message = "Una categoría existente es requerída." });
+                    return Ok(new { Success = false, Message = "Categoría y proveedor existentes son requerídos." });
                 }
         }
 
@@ -80,14 +88,21 @@ namespace Stock.Api.Controllers
             var product = this.service.Get(id);
             this.mapper.Map<ProductDTO, Product>(value, product);
             var producttype = this.productTypeService.Get(value.ProductTypeId);
-            if(producttype!=null){
+            var provider = this.providerService.Get(value.ProviderId);
+            if(producttype!=null && provider!=null){
                 product.ProductType = producttype;
-                this.service.Update(product);
-                value.Id = product.Id;
+                product.Provider = provider;
+                if(value.Stock>=0){
+                    this.service.Update(product);
+                    value.Id = product.Id;
                     value.ProductTypeDesc = producttype.Description;
-                return Ok(new { Success = true, Message = "",data = value });
+                    value.ProviderName = provider.Name;
+                    return Ok(new { Success = true, Message = "",data = value });
+                }else {
+                    return Ok(new { Success = false, Message = "Stock debe ser valor mayor a cero." });
+                }
             }else {
-                return Ok(new { Success = false, Message = "Una categoría existente es requerída." });
+                return Ok(new { Success = false, Message = "Categoría y proveedor son requerídos." });
             }
                 
             
@@ -134,6 +149,16 @@ namespace Stock.Api.Controllers
 
                 filter = filter.AndOrCustom(
                     x => x.ProductType.Description.ToUpper().Contains(model.ProductTypeDesc.ToUpper()),
+                    model.Condition.Equals(ActionDto.AND));
+            }
+            if (!string.IsNullOrWhiteSpace(model.ProviderName))
+            {
+                filter = filter.AndOrCustom(
+                    x => x.Provider!=null,
+                    model.Condition.Equals(ActionDto.AND));
+
+                filter = filter.AndOrCustom(
+                    x => x.Provider.Name.ToUpper().Contains(model.ProviderName.ToUpper()),
                     model.Condition.Equals(ActionDto.AND));
             }
             var products = this.service.Search(filter);

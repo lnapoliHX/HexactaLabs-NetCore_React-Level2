@@ -6,6 +6,7 @@ import Validator from "../../../../common/helpers/YupValidator";
 import InputField from "../../../../components/inputs/InputField";
 import schema from "../validation";
 import SelectProductTypes from "./select_producttypes.js";
+import SelectProviders from "./select_providers.js";
 
 const ProductForm = props => {
   const { handleSubmit, handleCancel } = props;
@@ -14,8 +15,9 @@ const ProductForm = props => {
       <Field label="Nombre" name="name" component={InputField} type="text" />
       <Field label="Costo" name="costPrice" component={InputField} type="text" />
       <Field label="Precio" name="salePrice" component={InputField} type="text" />
+      <Field label="Stock" name="stock" component={InputField} type="number" min={0}/>
       <SelectProductTypes/>
-      <Field label="Proveedor" name="providerId" component={InputField} type="text"/>
+      <SelectProviders/>
       <Button className="product-form__button" color="primary" type="submit">
         Guardar
       </Button>

@@ -14,6 +14,26 @@ namespace Stock.AppService.Services
         {
         }
 
+        public int ObtenerStock(string idProducto)
+        {
+            var producto = this.Repository.GetById(idProducto);
+            return producto.Stock;
+        }
+
+        public void DescontarStock(string idProducto, int value)
+        {
+            var producto = this.Repository.GetById(idProducto);
+            producto.DescontarStock(value);
+            this.Repository.Update(producto);
+        }
+
+        public void SumarStock(string idProducto, int value)
+        {
+            var producto = this.Repository.GetById(idProducto);
+            producto.SumarStock(value);
+            this.Repository.Update(producto);
+        }
+
         public IEnumerable<Product> Search(Expression<Func<Product, bool>> filter)
         {
             return this.Repository.List(filter);

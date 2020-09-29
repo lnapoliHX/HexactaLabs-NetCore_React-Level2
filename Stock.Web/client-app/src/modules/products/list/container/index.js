@@ -12,6 +12,7 @@ class ProductsPage extends React.Component {
       filters: {
         name: "",
         productTypeDesc: "",
+        providerName: "",
         condition: "AND"
       }
     };

@@ -2,7 +2,7 @@ import api from "../../../common/api";
 import { apiErrorToast } from "../../../common/api/apiErrorToast";
 import { setLoading, ActionTypes } from "../list";
 import { toast } from "react-toastify";
-import { /* goBack, */ replace } from "connected-react-router";
+import { goBack } from "connected-react-router";
 
 /* Actions */
 function success(product) {
@@ -27,7 +27,7 @@ export function update(product) {
         dispatch(success(response.data.data));
         dispatch(setLoading(false));
         toast.success("El producto se editó con éxito");
-        return dispatch(replace("/product"));
+        return dispatch(goBack());
       })
       .catch(error => {
         apiErrorToast(error);

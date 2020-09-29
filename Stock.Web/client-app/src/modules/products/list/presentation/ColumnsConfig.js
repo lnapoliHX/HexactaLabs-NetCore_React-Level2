@@ -32,11 +32,14 @@ const renderToolbar = ({ value }) => {
 
 const HeaderComponent = props => {
   return (
-	<h2 
-	className="tableHeading"
+    <div
+      style={{
+        textAlign: "left",
+        fontWeight: "bold"
+      }}
     >
       {props.title}
-    </h2>
+    </div>
   );
 };
 
@@ -48,7 +51,7 @@ const columns = [
     accessor: "name",
     Cell: props => props.value
   },
-  {
+  /* {
     Header: <HeaderComponent title="Costo" />,
     accessor: "costPrice",
     Cell: props => props.value
@@ -57,17 +60,22 @@ const columns = [
     Header: <HeaderComponent title="Precio" />,
     accessor: "salePrice",
     Cell: props => props.value
+  }, */
+  {
+    Header: <HeaderComponent title="Stock" />,
+    accessor: "stock",
+    Cell: props => props.value
   },
   {
     Header: <HeaderComponent title="Categoría" />,
     accessor: "productTypeDesc",
     Cell: props => props.value
   },
-  /* {
-    Header: <HeaderComponent title="Proveedr" />,
-    accessor: "salePrice",
+  {
+    Header: <HeaderComponent title="Proveedor" />,
+    accessor: "providerName",
     Cell: props => props.value
-  }, */
+  },
   {
     Header: <HeaderComponent title="Acciones" />,
     accessor: "id",

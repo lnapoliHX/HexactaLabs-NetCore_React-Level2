@@ -18,11 +18,13 @@ namespace Stock.Api.Controllers
     {
         private ProviderService service;
         private readonly IMapper mapper;
+        private readonly ProductService productService;
 
-        public ProviderController(ProviderService service, IMapper mapper)
+        public ProviderController(ProviderService service, IMapper mapper, ProductService pService)
         {
             this.service = service;
             this.mapper = mapper;
+            this.productService = pService;
         }
 
         [HttpPost]
@@ -91,7 +93,14 @@ namespace Stock.Api.Controllers
                 var provider = this.service.Get(id);
 
                 Expression<Func<Product, bool>> filter = x => x.ProviderId.Equals(id);
-
+                var products = this.productService.Search(filter);
+                
+                if(products.Count()==0){
+                    this.service.Delete(provider);
+                    return Ok(new { Success = true, Message = "", data = id });
+                } else {
+                    return Ok(new { Success = false, Message = "No se puede eliminar, existen productos de este proveedor.", data = id });
+                }
                 this.service.Delete(provider);
                 return Ok(new { Success = true, Message = "", data = id });
             } catch {

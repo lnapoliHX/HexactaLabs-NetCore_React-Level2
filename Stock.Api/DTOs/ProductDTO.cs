@@ -9,15 +9,21 @@ namespace Stock.Api.DTOs
         [Required]
         public string Name { get; set; }
 
+        [Required]
         public decimal CostPrice { get; set; }
 
+        [Required]
         public decimal SalePrice { get; set; }
+
+        [Required]
+        public int Stock { get; set; }
 
         [Required]
         public string ProductTypeId { get; set; }
 
         public string ProductTypeDesc { get; set; }
 
+        [Required]
         public string ProviderId { get; set; }
 
         public string ProviderName { get; set; }
