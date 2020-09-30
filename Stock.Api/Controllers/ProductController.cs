@@ -58,12 +58,12 @@ namespace Stock.Api.Controllers
         /// Permite obtener todas las instancias 
         /// </summary>
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> Get()
+        public ActionResult<IEnumerable<ProductDTO>> Get()
         {
             try
             {
                 var result = this.service.GetAll();
-                return this.mapper.Map<IEnumerable<Product>>(result).ToList();
+                return this.mapper.Map<IEnumerable<ProductDTO>>(result).ToList();
             }
             catch (Exception)
             {
@@ -103,15 +103,10 @@ namespace Stock.Api.Controllers
 
             this.mapper.Map<ProductDTO, Product>(value, product);
 
-            if (value.ProductTypeId != null)
-            {
-                product.ProductType = this.productTypeService.Get(value.ProductTypeId);
-            }
+            product.ProductType = this.productTypeService.Get(value.ProductTypeId);
 
-            if (value.ProviderId != null)
-            {
-                product.Provider = this.providerService.Get(value.ProviderId);
-            }
+            product.Provider = this.providerService.Get(value.ProviderId);
+
 
             this.service.Update(product);
         }
@@ -152,8 +147,15 @@ namespace Stock.Api.Controllers
                     model.Condition.Equals(ActionDto.AND));
             }
 
+            if (!string.IsNullOrWhiteSpace(model.productTypeDesc))
+            {
+                filter = filter.AndOrCustom(
+                    x => x.ProductType.Description.ToUpper().Contains(model.productTypeDesc.ToUpper()),
+                    model.Condition.Equals(ActionDto.AND));
+            }
+
             var products = this.service.Search(filter);
-            return Ok(products);
+            return Ok(this.mapper.Map<IEnumerable<ProductDTO>>(products).ToList());
         }
 
     }
