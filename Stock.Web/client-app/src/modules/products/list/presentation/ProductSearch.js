@@ -18,6 +18,15 @@ const Search = (props) => {
             placeholder="Nombre"
           />
         </Col>
+        <Col>
+          <Input
+            name="productTypeDesc"
+            id="nameTipoProduct"
+            type="text"
+            onChange={props.handleFilter}
+            placeholder="Tipo Producto"
+          />
+        </Col>
 
         <Col>
           <Button color="primary" onClick={props.submitFilter}>

@@ -25,46 +25,14 @@ const ProductView = (props) => {
           <Col lg="2">Precio de Salida</Col>
           <Col>{props.product.salePrice}</Col>
         </Row>
-        {props ? (
-          props.product ? (
-            props.product.productType ? (
-              props.product.productType.description ? (
-                <Row>
-                  <Col lg="2">Categoria</Col>
-                  <Col>{props.product.productType.description}</Col>
-                </Row>
-              ) : (
-                <Row></Row>
-              )
-            ) : (
-              <Row></Row>
-            )
-          ) : (
-            <Row></Row>
-          )
-        ) : (
-          <Row></Row>
-        )}
-        {props ? (
-          props.product ? (
-            props.product.provider ? (
-              props.product.provider.name ? (
-                <Row>
-                  <Col lg="2">Proveedor</Col>
-                  <Col>{props.product.provider.name}</Col>
-                </Row>
-              ) : (
-                <Row></Row>
-              )
-            ) : (
-              <Row></Row>
-            )
-          ) : (
-            <Row></Row>
-          )
-        ) : (
-          <Row></Row>
-        )}
+        <Row>
+          <Col lg="2">Categoria</Col>
+          <Col>{props.product.productTypeDesc}</Col>
+        </Row>
+        <Row>
+          <Col lg="2">Proveedor</Col>
+          <Col>{props.product.providerName}</Col>
+        </Row>
       </div>
       <div className="product-view__button-row">
         <Button

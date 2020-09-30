@@ -43,6 +43,16 @@ const columns = [
     Cell: (props) => props.value,
   },
   {
+    Header: <HeaderComponent title="Precio de Salida" />,
+    accessor: "salePrice",
+    Cell: (props) => props.value,
+  },
+  {
+    Header: <HeaderComponent title="Proveedor" />,
+    accessor: "providerName",
+    Cell: (props) => props.value,
+  },
+  {
     Header: <HeaderComponent title="Acciones" />,
     accessor: "id",
     Cell: renderToolbar,
