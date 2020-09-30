@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import Layout from "../../components/Layout";
 import HomePage from "../home/container/HomePage";
 import LoginPage from "../auth/containers/LoginPage";
+import ProductPage from "../products/page";
 import ProviderPage from "../providers/page";
 import LogoutPage from "../auth/containers/LogoutPage";
 import ProductTypePage from "../productType/page";
@@ -12,17 +13,18 @@ import StorePage from "../stores/page";
 
 import PropTypes from "prop-types";
 
-const Private = props => {
+const Private = (props) => {
   if (localStorage.getItem("JWT_LOGIN")) {
     return props.children;
   }
   return <LoginPage />;
 };
 
-const App = props => (
+const App = (props) => (
   <Private>
     <Layout {...props}>
       <Route exact path="/" component={HomePage} />
+      <Route path="/product" component={ProductPage} />
       <Route path="/provider" component={ProviderPage} />
       <Route path="/logout" component={LogoutPage} />
       <Route path="/product-type" component={ProductTypePage} />
@@ -33,7 +35,7 @@ const App = props => (
 );
 
 Private.propTypes = {
-  children: PropTypes.array
+  children: PropTypes.array,
 };
 
 App.displayName = "App";
