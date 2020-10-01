@@ -2,6 +2,8 @@ import { cloneDeep, pickBy } from "lodash";
 import { normalize } from "../../../common/helpers/normalizer";
 import api from "../../../common/api";
 import { apiErrorToast } from "../../../common/api/apiErrorToast";
+import { setProviders } from "../../providers/list";
+import { setProductTypes } from "../../productType/list";
 
 const initialState = {
   loading: false,
@@ -117,11 +119,34 @@ export function getAll() {
   };
 }
 
+
+export function fetchAll() {
+  return function (dispatch) {
+    dispatch(setLoading(true));
+    return Promise.all([
+      api.get("/product"),
+      api.get("/producttype"),
+      api.get("/provider")
+    ])
+      .then(([products, types, providers]) => {
+        dispatch(setProducts(products.data));
+        dispatch(setProductTypes(types.data));
+        dispatch(setProviders(providers.data));
+        dispatch(setLoading(false));
+      })
+      .catch(error => {
+        apiErrorToast(error);
+        return dispatch(setLoading(false));
+      });
+  };
+}
+
+
 export function getById(id) {
   return getAll({ id });
 }
 
-export function fetchByFilters(filters) {
+/*export function fetchByFilters(filters) {
   return function(dispatch) {
     return api
       .post("/product/search", pickBy(filters))
@@ -130,6 +155,43 @@ export function fetchByFilters(filters) {
       })
       .catch(error => {
         apiErrorToast(error);
+      });
+  };
+}*/
+
+
+export function fetchByFilters(filters) {
+  return function (dispatch) {
+    return api
+      .post("/product/search", pickBy(filters))
+      .then(response => {
+        const products = response.data.map(product => ({
+          ...product,
+          productTypeId: product.productType.id,
+          productTypeDesc: product.productType.description
+        }));
+        dispatch(setProducts(products));
+      })
+      .catch(error => {
+        apiErrorToast(error);
+      });
+  };
+}
+
+
+
+export function fetchAllTypes() {
+  return function (dispatch) {
+    dispatch(setLoading(true));
+    return api
+      .get("/producttype")
+      .then(response => {
+        dispatch(setProductTypes(response.data));
+        return dispatch(setLoading(false));
+      })
+      .catch(error => {
+        apiErrorToast(error);
+        return dispatch(setLoading(false));
       });
   };
 }

@@ -41,8 +41,9 @@ namespace Stock.Api
             services.AddTransient<Repository.LiteDb.Configuration.ConfigurationProvider>();
             services.AddTransient<ILiteConfiguration, LiteConfiguration>();
             services.AddTransient<IDbContext, DataContext>();
-            services.AddTransient<IRepository<Provider>, BaseRepository<Provider>>();
+            //services.AddTransient<IRepository<Product>, BaseRepository<Product>,BaseRepository<ProductType>>(); //Tambien envío por parametro el repo de producttype
             services.AddTransient<IRepository<Product>, BaseRepository<Product>>();
+            services.AddTransient<IRepository<Provider>, BaseRepository<Provider>>();
             services.AddTransient<IRepository<ProductType>, BaseRepository<ProductType>>();
             services.AddTransient<IRepository<Store>, BaseRepository<Store>>();
 

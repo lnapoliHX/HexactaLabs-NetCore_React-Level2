@@ -17,12 +17,15 @@ namespace Stock.Api.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ProductService service;
+        private readonly ProductTypeService productTypeService; //Para vincular el Product con el ProductType!
         private readonly IMapper mapper;
         
-        public ProductController(ProductService service, IMapper mapper)
+        public ProductController(ProductService service, IMapper mapper, ProductTypeService productTypeService)
         {
             this.service = service;
+            this.productTypeService = productTypeService;
             this.mapper = mapper;
+            
         }
 
         /// <summary>
@@ -58,6 +61,7 @@ namespace Stock.Api.Controllers
             try
             {
                 var product = this.mapper.Map<Product>(value);
+                product.ProductType = this.productTypeService.Get(value.ProductTypeId.ToString());
                 this.service.Create(product);
                 value.Id = product.Id;
                 return Ok(new { Success = true, Message = "", data = value });
@@ -79,6 +83,7 @@ namespace Stock.Api.Controllers
             var product = this.service.Get(id);
             TryValidateModel(value);
             this.mapper.Map<ProductDTO, Product>(value, product);
+            product.ProductType = this.productTypeService.Get(value.ProductTypeId.ToString());
             this.service.Update(product);
         }
 
@@ -119,14 +124,6 @@ namespace Stock.Api.Controllers
                     x => x.Name.ToUpper().Contains(model.Name.ToUpper()),
                     model.Condition.Equals(ActionDto.AND));
             }
-
-            //TODO: Terminar búsqueda, ver como chequear que el string sea numeric!
-     /*      if(model.CostPrice>0)
-            {
-                filter = filter.AndOrCustom(
-                    x => x.CostPrice == (model.CostPrice),
-                    model.Condition.Equals(ActionDto.AND));
-            }*/
 
             var products = this.service.Search(filter);
             return Ok(products);

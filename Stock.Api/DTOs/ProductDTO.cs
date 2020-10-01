@@ -19,7 +19,8 @@ namespace Stock.Api.DTOs
         [Required]
         public string ProductTypeId { get; set; }
 
-        [Required]
         public string ProductTypeDesc { get; set; }
+
+        public string ProviderId { get; set; }
     }
 }

@@ -10,23 +10,34 @@ namespace Stock.AppService.Services
 {
     public class ProductService : BaseService<Product>
     {
+
         public ProductService(IRepository<Product> repository) : base(repository)
         {    
               
         }
 
+        public new Product Get(string id)
+        {
+            Product aux = this.Repository.GetById(id);
+           // ProductTypeService ptService = new ProductTypeService(); <-- El vinculo esta hecho en el controller!
+           // ProductType ptAux = ptService.Get(aux.ProductType.Id);
+           // aux.ProductType = ptAux;
+            return aux;
+        }
+
         public new Product Create(Product entity)
         {
-            if (this.NombreUnico(entity.Name) 
-                && (entity.CostPrice > 0) 
-                && (entity.SalePrice> 0))
+            if (entity.CostPrice > 0 && entity.SalePrice>0)
             {
                 return base.Create(entity);
             }
 
-            throw new System.Exception("Los datos ingresados son incorrectos.");
+            throw new System.Exception("El precio de venta y el costo no pueden ser cero");
         }
-       
+
+
+
+
 
 
         private bool NombreUnico(string name)
