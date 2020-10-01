@@ -1,0 +1,12 @@
+App -> import ProductPage from "../modules/products/page";
+	ProductPage
+		import List from "../modules/products/list/container";
+			Renderiza la página que muestra el
+                		Listado de los productos existentes
+				Botón Agregar Nuevo Producto
+			Maneja el estado del filtrado de productos
+		import Create from "../modules/products/create/container";
+		import { getLoading, getAll } from "../modules/products/list";
+			Llamadas a la Api para recuperar productos
+			Fabrica de Acciones
+

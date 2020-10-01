@@ -1,4 +1,5 @@
 ﻿using Stock.Model.Base;
+using System.Collections.Generic;
 using Stock.Model.Exceptions;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,7 +18,7 @@ namespace Stock.Model.Entities
 
         public virtual ProductType ProductType { get; set; }
 
-        private int _stock;
+        private int _stock {get; set; }
 
         public int Stock
         {
@@ -27,7 +28,7 @@ namespace Stock.Model.Entities
             }
         }
 
-        public void DescontarStock(int value)
+        public void DiscountStock(int value)
         {
             if (this._stock - value < 0)
                 throw new ModelException("No hay stock disponible para efectuar la operación.");
@@ -35,12 +36,14 @@ namespace Stock.Model.Entities
             this._stock -= value;
         }
 
-        public void SumarStock(int value)
+        public void AddStock(int value)
         {
             this._stock += value;
         }
 
         public string ProviderId { get; set; }
         public Provider Provider { get; set; }
+        // public List<Provider> Providers { get; set; }
+
     }
 }

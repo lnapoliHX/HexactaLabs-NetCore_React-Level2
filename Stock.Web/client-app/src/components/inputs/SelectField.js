@@ -12,6 +12,11 @@ const SelectField = props => {
     meta: { touched, error, pristine }
   } = props;
 
+  //console.log('selectField value:', value);
+  //console.log('props', props);
+  //input.value = value;
+  //console.log('input:', input);
+
   return (
     <FormGroup>
       <Label htmlFor={input.name}>{label}</Label>
@@ -24,11 +29,11 @@ const SelectField = props => {
         type={type || "select"}
         multiple={multiple}
       >
-        {options.map((each, index) => (
-          <option key={index} {...each}>
-            {each.label}
-          </option>
-        ))}
+        {options.map(each => 
+                (<option key={each.id} {...each}>
+                  {each.label}
+                </option>)
+             )}
       </Input>
       <FormFeedback>{error}</FormFeedback>
     </FormGroup>

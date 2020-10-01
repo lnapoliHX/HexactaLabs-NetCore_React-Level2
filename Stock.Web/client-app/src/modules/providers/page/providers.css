@@ -1,18 +1,22 @@
-.provider__button {
+.provider__button,
+.product__button {
   font-size: 1em;
 }
 
-.provider__button-icon {
+.provider__button-icon,
+.product__button-icon {
   font-size: 0.8em;
   margin-right: 4px;
 }
 
 .provider-form__button,
-.provider-list__button {
+.provider-list__button,
+.product-list__button {
   margin: 0 2px 0;
 }
 
-.provider-list__button {
+.provider-list__button,
+.product-list__button {
   display: inline-block;
   padding: 0 5px 0;
   border: 1px solid transparent;
@@ -21,12 +25,14 @@
   color: white;
 }
 
-.provider-list__button:hover {
+.provider-list__button:hover,
+.product-list__button:hover {
   color: white;
   background-color: #0069d9;
 }
 
-.provider-list__button-icon {
+.provider-list__button-icon,
+.product-list__button-icon {
   margin-top: -4px;
 }
 
@@ -197,7 +203,8 @@
     display: flex;
 }
 
-.ReactTable .rt-tbody .rt-td .provider-list__button {
+.ReactTable .rt-tbody .rt-td .provider-list__button,
+.ReactTable .rt-tbody .rt-td .product-list__button {
     background: none;
     color: #009688;
     padding: 0;
@@ -207,7 +214,8 @@
     margin: 0 15px;
 }
 
-.ReactTable .rt-tbody .rt-td .provider-list__button svg {
+.ReactTable .rt-tbody .rt-td .provider-list__button svg,
+.ReactTable .rt-tbody .rt-td .product-list__button svg {
     width: inherit;
     height: inherit;
 }
@@ -343,6 +351,10 @@
 .btn-secondary svg,
 .btn-danger svg {
     fill: #fff;
+}
+
+.product__button svg{
+    fill: #059084;
 }
 
 .btn:hover svg, .btn:focus svg,

@@ -7,8 +7,9 @@ import { reducer as formReducer } from "redux-form";
 import auth from "../modules/auth";
 import home from "../modules/home";
 import provider from "../modules/providers";
-import productType from "../modules/productType";
 import store from "../modules/stores";
+import productType from "../modules/productTypes";
+import product from "../modules/products";
 
 export default function configureStore(history, initialState) {
   const reducers = {
@@ -17,8 +18,9 @@ export default function configureStore(history, initialState) {
     auth,
     home,
     provider,
+    store,
     productType,
-    store
+    product
   };
 
   const middleware = [thunk, routerMiddleware(history)];
