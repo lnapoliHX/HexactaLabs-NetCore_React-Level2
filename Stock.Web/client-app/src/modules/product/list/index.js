@@ -1,4 +1,4 @@
-import { cloneDeep, pickBy } from "lodash";
+import { cloneDeep, cloneWith, pickBy } from "lodash";
 import { normalize } from "../../../common/helpers/normalizer";
 import api from "../../../common/api";
 import { apiErrorToast } from "../../../common/api/apiErrorToast";
@@ -78,7 +78,12 @@ function handleRemoveproduct(state, { id }) {
 function handleStock(state, { product }) {
   return {
     ...state,
-    byId: { ...state.byId, [product.id]: cloneDeep(product) },
+    byId: {
+      ...state.byId,
+      [product.id]: cloneWith(product, () => {
+        product.stock = state.byId[product.id].stock + product.stock;
+      }),
+    },
   };
 }
 

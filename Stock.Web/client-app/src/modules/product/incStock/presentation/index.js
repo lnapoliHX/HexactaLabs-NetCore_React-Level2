@@ -10,7 +10,13 @@ const StockForm = (props) => {
   const { handleSubmit, handleCancel } = props;
   return (
     <Form onSubmit={handleSubmit} className="addForm">
-      <Field label="stock" name="stock" component={InputField} type="number" />
+      <Field
+        label="stock"
+        name="stock"
+        component={InputField}
+        type="number"
+        parse={(v) => Number.parseInt(v)}
+      />
       <Button className="product-form__button" color="primary" type="submit">
         Aumentar
       </Button>

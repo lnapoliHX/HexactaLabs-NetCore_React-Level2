@@ -4,6 +4,7 @@ import { Field, reduxForm } from "redux-form";
 import { Form, Button } from "reactstrap";
 import Validator from "../../../../common/helpers/YupValidator";
 import InputField from "../../../../components/inputs/InputField";
+import SelectField from "../../../../components/inputs/SelectField";
 import schema from "../validation";
 
 const ProductForm = (props) => {
@@ -11,18 +12,34 @@ const ProductForm = (props) => {
   return (
     <Form onSubmit={handleSubmit} className="addForm">
       <Field label="Nombre" name="name" component={InputField} type="text" />
-      <Field label="Stock" name="stock" component={InputField} type="number" />
       <Field
-        label="ID de Proveedor"
-        name="providerId"
+        label="CostPrice"
+        name="costPrice"
         component={InputField}
-        type="text"
+        type="number"
+        parse={(v) => Number.parseInt(v)}
       />
       <Field
-        label="ID de Categoria"
-        name="productTypeId"
+        label="SalePrice"
+        name="salePrice"
         component={InputField}
-        type="text"
+        type="number"
+        ç
+        parse={(v) => Number.parseInt(v)}
+      />
+      <Field
+        name="productTypeId"
+        label="Tipo de producto"
+        component={SelectField}
+        type="select"
+        options={props.productTypeOptions}
+      />
+      <Field
+        name="providerId"
+        label="Proveedor"
+        component={SelectField}
+        type="select"
+        options={props.providerOptions}
       />
       <Button className="product-form__button" color="primary" type="submit">
         Guardar
@@ -42,6 +59,8 @@ const ProductForm = (props) => {
 ProductForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
+  productTypeOptions: PropTypes.array.isRequired,
+  providerOptions: PropTypes.array.isRequired,
 };
 
 export default reduxForm({

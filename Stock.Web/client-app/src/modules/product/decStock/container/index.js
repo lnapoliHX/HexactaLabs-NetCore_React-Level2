@@ -26,7 +26,7 @@ const Stock = ({
           <Form
             initialValues={initialValues}
             onSubmit={onSubmit}
-            handleDecrease={onCancel}
+            handleCancel={onCancel}
           />
         </Col>
       </Row>
