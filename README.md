@@ -43,6 +43,15 @@ El sistema debe ser capaz de:
 * Realizar búsquedas de productos.
 * La web React debe conectarse con los servicios configurando un store.
 
+## Arquitectura esperada
+Se crearon UnitTest para validar los endpoints.
+Deberán utilizarlos como guía para que los mismos validen que el desarrollo cumpla con las condiciones, siguiendo la nomeclatura declarada dentro de los tests.
+Podrán encontrarlo dentro del proyecto Stock.Test (https://github.com/lnapoliHX/HexactaLabs-NetCore_React-Level2/tree/master/Stock.Test).
+
+Documentación útil:
+https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices
+https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-nunit
+
 ## Tips
 - Tener encuenta lo utilizado en *initial* sobre inyección de dependencias, automapper y swagger.
     - En su defecto, revisar la [Documentación](https://github.com/lnapoliHX/HexactaLabs-NetCore_React-Initial/blob/master/Docs/index.md) nuevamente.
