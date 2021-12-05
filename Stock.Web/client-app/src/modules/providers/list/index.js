@@ -6,7 +6,7 @@ import { apiErrorToast } from "../../../common/api/apiErrorToast";
 const initialState = {
   loading: false,
   ids: [],
-  byId: {}
+  byId: {},
 };
 
 /* Action types */
@@ -22,22 +22,22 @@ export const ActionTypes = {
   SET,
   CREATE,
   UPDATE,
-  REMOVE
+  REMOVE,
 };
 
 /* Reducer handlers */
 function handleLoading(state, { loading }) {
   return {
     ...state,
-    loading
+    loading,
   };
 }
 
 function handleSet(state, { providers }) {
   return {
     ...state,
-    ids: providers.map(provider => provider.id),
-    byId: normalize(providers)
+    ids: providers.map((provider) => provider.id),
+    byId: normalize(providers),
   };
 }
 
@@ -47,29 +47,29 @@ function handleNewProvider(state, { provider }) {
     ids: state.ids.concat([provider.id]),
     byId: {
       ...state.byId,
-      [provider.id]: cloneDeep(provider)
-    }
+      [provider.id]: cloneDeep(provider),
+    },
   };
 }
 
 function handleUpdateProvider(state, { provider }) {
   return {
     ...state,
-    byId: { ...state.byId, [provider.id]: cloneDeep(provider) }
+    byId: { ...state.byId, [provider.id]: cloneDeep(provider) },
   };
 }
 
 function handleRemoveProvider(state, { id }) {
   return {
     ...state,
-    ids: state.ids.filter(providerId => providerId !== id),
+    ids: state.ids.filter((providerId) => providerId !== id),
     byId: Object.keys(state.byId).reduce(
       (acc, providerId) =>
         providerId !== `${id}`
           ? { ...acc, [providerId]: state.byId[providerId] }
           : acc,
       {}
-    )
+    ),
   };
 }
 
@@ -78,7 +78,7 @@ const handlers = {
   [SET]: handleSet,
   [CREATE]: handleNewProvider,
   [UPDATE]: handleUpdateProvider,
-  [REMOVE]: handleRemoveProvider
+  [REMOVE]: handleRemoveProvider,
 };
 
 export default function reducer(state = initialState, action) {
@@ -90,27 +90,27 @@ export default function reducer(state = initialState, action) {
 export function setLoading(status) {
   return {
     type: LOADING,
-    loading: status
+    loading: status,
   };
 }
 
 export function setProviders(providers) {
   return {
     type: SET,
-    providers
+    providers,
   };
 }
 
 export function getAll() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(setLoading(true));
     return api
       .get("/provider")
-      .then(response => {
+      .then((response) => {
         dispatch(setProviders(response.data));
         return dispatch(setLoading(false));
       })
-      .catch(error => {
+      .catch((error) => {
         apiErrorToast(error);
         return dispatch(setLoading(false));
       });
@@ -122,13 +122,13 @@ export function getById(id) {
 }
 
 export function fetchByFilters(filters) {
-  return function(dispatch) {
+  return function (dispatch) {
     return api
       .post("/provider/search", pickBy(filters))
-      .then(response => {
+      .then((response) => {
         dispatch(setProviders(response.data));
       })
-      .catch(error => {
+      .catch((error) => {
         apiErrorToast(error);
       });
   };
@@ -158,7 +158,7 @@ export function getProviderById(state, id) {
 function makeGetProvidersMemoized() {
   let cache;
   let value = [];
-  return state => {
+  return (state) => {
     if (cache === getProvidersById(state)) {
       return value;
     }
