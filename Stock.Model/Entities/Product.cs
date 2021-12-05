@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Stock.Model.Entities
 {
     [Table("product")]
-    public class Product: IEntity
+    public class Product : IEntity
     {
         public string Id { get; set; }
 

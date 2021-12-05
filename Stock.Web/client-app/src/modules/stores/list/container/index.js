@@ -8,7 +8,6 @@ import Presentation from "../presentation";
 const initialState = {
   name: "",
   address: "",
-  condition: "AND"
 };
 
 class StoresPage extends React.Component {
