@@ -21,12 +21,19 @@ namespace Stock.Api.Controllers
 
         private readonly ProductService service;
         private readonly IMapper mapper;
+        private readonly ProductTypeService productTypeService;
+        private readonly ProviderService providerService;
 
-
-        public ProductController(ProductService service, IMapper mapper)
+        public ProductController(
+            ProductService service,
+            ProductTypeService productTypeService,
+            ProviderService providerService,
+            IMapper mapper)
         {
             this.service = service ?? throw new ArgumentException(nameof(service));
             this.mapper = mapper ?? throw new ArgumentException(nameof(mapper));
+            this.productTypeService = productTypeService ?? throw new ArgumentException(nameof(productTypeService));
+            this.providerService = providerService ?? throw new ArgumentException(nameof(providerService));
         }
 
 
@@ -45,6 +52,8 @@ namespace Stock.Api.Controllers
                 {
                     return NotFound();
                 }
+
+ 
                 return mapper.Map<IEnumerable<ProductDTO>>(product).ToList();
             }
             catch (Exception ex)
@@ -87,7 +96,16 @@ namespace Stock.Api.Controllers
         public Product Post([FromBody] ProductDTO value)
         {
             TryValidateModel(value);
-            var product = service.Create(mapper.Map<Product>(value));
+
+            var product = this.mapper.Map<Product>(value);
+
+            product.ProductType = this.productTypeService.Get(value.ProductTypeId.ToString());
+            product.Provider = this.providerService.Get(value.ProviderId.ToString());
+            product.SumarStock(value.Stock);
+            this.service.Create(product);
+
+            //var product = service.Create(mapper.Map<Product>(value));
+
             return mapper.Map<Product>(product);
         }
 
@@ -107,7 +125,14 @@ namespace Stock.Api.Controllers
                 {
                     return NotFound();
                 }
-                mapper.Map<ProductDTO, Product>(value, product);
+                product.ProductType = this.productTypeService.Get(value.ProductTypeId.ToString());
+                product.Provider = this.providerService.Get(value.ProviderId.ToString());
+                product.CostPrice = value.CostPrice;
+                product.SalePrice = (decimal)value.SalePrice;
+                product.Name = value.Name;                 
+                product.SumarStock(value.Stock);
+
+                //mapper.Map<ProductDTO, Product>(value, product);
                 service.Update(product);
                 return Ok(new { statusCode = "200", result = "Producto modificado exitosamente" });
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,12 +13,15 @@ namespace Stock.Api.DTOs
         public string Name { get; set; }
 
         public decimal CostPrice { get; set; }
+        
+        [Required]
+        public decimal? SalePrice { get; set; }
 
-        public decimal SalePrice { get; set; }
-
+        [Required]
         public string ProductTypeId { get; set; }
         public string ProductTypeDesc { get; set; }
         
+        [Required]
         public int Stock { get; set; }       
 
         public string ProviderId { get; set; }
